@@ -4,17 +4,16 @@ Este projeto atende ao segundo modulo do **Programa Nanodegree - Desenvolvimento
 
 ## Objetivo
 
-O sistema consiste em gerenciar postagem / comentarios, os usuarios podem criar novas postagens bem como comentar suas postagens.
+O sistema gerencia postagem / comentários os usuarios podem criar novas postagens bem como comentar suas propias postagens.
 
 ## Especificação do projeto:
 
 #### Configuração do Projeto
-A aplicação foi criada com o create-react-app, após a aplicação criada, entrar dentro do projeto e digitar o comando npm install para instalar todas as dependencia necessarias e após digitar npm start para que a aplicação seja iniciada (ou com yarn).<br />
+A aplicação foi criada com o create-react-app, após a aplicação criada entrar dentro do projeto gerado e digitar o comando npm install para instalar todas as dependência necessárias e após digitar npm start para que a aplicação seja iniciada (ou com yarn).<br />
 O arquivo README descreve todas as funcionalidades do projeto.
 
 ####  Página principal 
-A página principal esta dividida em três areas, sendo a exibição das postagens, controle de exibição das categorias
-e a ordenação por data / score.
+A página principal esta dividida em três areas, sendo a exibição das postagens, controle de exibição das categorias e a ordenação por data / score.
 Ainda é possível criar novas postagens, após a criação das postagens você poderar criar comentarios para as postagens criadas
 
 #### Página de Postagem - Formulário basico de cadastro contendo as seguintes informações
@@ -34,14 +33,91 @@ Ainda é possível criar novas postagens, após a criação das postagens você 
 Pode-se criar quantas postagens necessárias bem como avaliar positivamente ou negativamente cada postagem / comentario.<br />
 Pode-se excluir os comentarios das postagens e excluir as postagens.
 
+### Gerenciamento do estado
+#### O estado do aplicativo é gerenciado pelo Redux?
+
+A maioria dos estados do aplicativo são gerenciados pela Redux Store. Props state-based são mapeadas a partir da store e não armazenadas como um estado do componente.<br />
+
+Inputs de formulário e componentes controlados podem ter algum estado controlado pelo componente.
+
+#### O estado do aplicativo é atualizado corretamente?
+
+As atualizações são desencadeadas pelo dispatch de action creators aos reducers.<br />
+
+Os reducers e actions são escritos de maneira adequada e retornam corretamente o estado de atualização para a store.
+
 ### Funcionalidade do código
-#### O código do projeto lida com o gerenciamento de estado de forma adequada?
-O estado componente é passado dos componentes pais para os filhos. A variável de estado não é modificada diretamente - a função setState() é usada de forma correta.
+#### As postagens são listadas corretamente e possuem as funcionalidades desejadas de uma visualização em lista?
+Postagens listadas são exibidas com os seguintes itens:<br />
+1) Título<br />
+2) Autor<br />
+3) Número de comentários<br />
+4) Pontuação atual<br />
+5) Mecanismo de voto para votar post com positivo ou negativo<br />
+6) Mecanismo para ordená-las por data ou pontuação (não obrigatório ter ambos)<br />
 
-Os livros possuem o mesmo estado tanto na página de busca como na página principal da aplicação: se um livro está na estante, isso é refletido nos dois locais.
+Os recursos de contador de comentários, edit/delete, e upvote/downvote são necessários nesta página para permitir que o usuário gerencie os posts sem navegar para outras páginas.<br />
 
-#### O JSX é formatado de maneira adequada?
-Todos os códigos JSX são formatados de maneira adequada e funcional.
+O mecanismo de votos funciona e exibe corretamente a nova pontuação dos votos após um clique.<br />
+
+As postagens em lista possuem um link que levam à página de detalhes daquela postagem.<br />
+
+Todas as postagens estão listadas na raíz (/).<br />
+
+Todas as postagens de uma categoria estão listadas em /:category<br />
+
+As páginas de lista das postagens (raíz / e categoria /:category) incluem um mecanismo para ordená-las por data ou pontuação (não obrigatório ter ambos), e essa ordenação funciona corretamente.<br />
+
+As páginas de lista de postagens incluem um botão para adicionar um novo post.<br />
+
+Todas as categorias disponíveis são visíveis em qualquer página de lista de postagens.<br />
+
+#### A página de detalhes da postagem possui a funcionalidade desejada?
+Os detalhes da postagem estão disponíveis em /:category/:post_id<br />
+
+A postagem é exibida com os seguintes itens:<br />
+1) Título<br />
+2) Corpo<br />
+3) Autor<br />
+4) Número de comentários<br />
+5) Pontuação atual<br />
+6) Mecanismo de voto para votar positiva ou negativamente o post<br />
+7) Botões ou links para que o post possa ser editado ou removido.<br />
+
+Comentários listados são exibidos com os seguintes itens:<br />
+1) Autor<br />
+2) Pontuação atual<br />
+3) Mecanismo de voto para votar positiva ou negativamente o comentário<br />
+
+O mecanismo de voto funciona e exibe corretamente a nova pontuação de votos ao clicar para votar na postagem e nos comentários.<br />
+
+Todos os comentários de uma postagem são exibidos abaixo do corpo de texto da postagem.<br />
+
+Um mecanismo para a adição de novos comentários está visível na página de detalhes e funciona.<br />
+
+#### Os usuários podem adicionar novas postagens?
+
+O aplicativo possui um formulário para criação de novas postagens. Enviar o formulário adiciona corretamente a postagem à categoria correta.
+
+### Os usuários podem adicionar comentários?
+
+O aplicativo possui um formulário para adicionar comentários novos a uma postagem. Enviar o formulário corretamente adiciona um comentário à postagem em questão.
+
+### Os usuários podem editar postagens/comentários?
+
+Botões de edição de postagens/comentários abrem um formulário com os dados existentes já pré-preenchidos. O envio do formulário atualiza corretamente os dados do comentário/postagem.
+
+### Os usuários podem remover postagens/comentários?
+
+Existe um mecanismo para a remoção de postagens e comentários. Clicar no botão/link exclui corretamente a postagem/comentário da view de lista e faz com que não seja mais possível acessá-lo(a) pela URL. Quando o usuário vai para a URL de um post deletado, uma página 404 é exibida.
+
+### O aplicativo é navegável?
+
+O usuário é capaz de navegar entre as páginas de detalhes da postagem, página principal e categorias sem que seja preciso digitar seu endereço na barra de endereços.
+
+
+
+### Os usuários podem adicionar comentários?
 
 
 #### Lembrete:
