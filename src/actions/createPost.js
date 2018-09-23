@@ -66,8 +66,6 @@ export function setOrdenacaoData(post) {
 
 // Função para ordenar por data
 export function fetchOrdenarDataPost(posts) {
-//    console.log('Action fetchOrdenarDataPost: ', posts)
-
     return dispatch => {
         let postagemData=  posts.sort(voteCreateDate);
         dispatch(setOrdenacaoData(postagemData))
@@ -76,8 +74,6 @@ export function fetchOrdenarDataPost(posts) {
 
 // Função para ordenar Score
 export function fetchOrdenarScorePost(posts) {
-    // console.log('Action fetchOrdenarScorePost: ', posts)
-
     return dispatch => {
         let postagemData=  posts.sort(voteCompare);
         dispatch(setOrdenacaoData(postagemData))
@@ -257,12 +253,6 @@ function voteCompare(votea, voteb) {
 }
 
 // Função para ordenação da data de criação
-function voteCreateDate(voteDateA, voteDateB) {
-   // return convertDate(voteDateA.timestamp) > convertDate(voteDateB.timestamp);
+function voteCreateDate(voteDateA, voteDateB) {  
    return voteDateA.timestamp < voteDateB.timestamp;
-}
-
-// Função para conversão de timestamp para formato DD/MM/YYYY
-function convertDate(data) {
-    return new Intl.DateTimeFormat('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(data);
 }

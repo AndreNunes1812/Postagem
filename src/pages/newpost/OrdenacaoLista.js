@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 import { fetchCategoryPost, fetchOrdenarDataPost, fetchOrdenarScorePost } from '../../actions/createPost';
 
@@ -27,7 +26,6 @@ class OrdenacaoLista extends Component {
 
 
     handleClick(category) {
-         console.log('this is:', category);
          this.validarToken();
 
         //Ordenação por data
@@ -39,8 +37,6 @@ class OrdenacaoLista extends Component {
     }
 
     render() {
-        let postagem =  this.props.postagem ;
-        console.log('OrdenacaoLista:', postagem)
         return (
             <div>
                 <ul>
@@ -53,7 +49,6 @@ class OrdenacaoLista extends Component {
                         )
 
                     }
-
                 </ul>
             </div>
         );

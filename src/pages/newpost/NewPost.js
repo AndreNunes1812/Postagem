@@ -7,12 +7,10 @@ import { connect } from 'react-redux';
 import { fetchCategorias } from '../../actions/todos';
 import { fetchPosts } from '../../actions/createPost';
 
-
 import NavMenu from '../navmenu/NavMenu';
 import CategoriasList from './CategoriasList';
 import OrdenacaoLista from './OrdenacaoLista';
 import ViewPost from './viewPost';
-import CreatePost from '../createpost/CreatePost'
 
 import { Panel, Row, Col, Button } from 'react-bootstrap';
 
@@ -59,10 +57,8 @@ class NewPost extends Component {
     }
 
     OnclickNovaPostagem() {
-        // console.log('Cliquei')
         this.props.history.push({
             pathname: '/post',
-            //state: { commentId: commentID }
         })
     }
 
@@ -70,8 +66,6 @@ class NewPost extends Component {
 
         const categorias = this.props.todos.categories
         const postagem = this.props.createPost.post;
-
-        console.log('NewPostPostagem:', postagem )
 
         return (
             <div className="container">
@@ -92,7 +86,11 @@ class NewPost extends Component {
                                     ) :
                                         (<div>{postagem.map(post =>
                                             (<li key={post.id} style={{ listStyleType: "none" }}>
-                                                <ViewPost postagem={post} desabilitarBotoes={true} trashID={true}/>
+                                                <ViewPost postagem={post} 
+                                                    desabilitarBotoes={true} 
+                                                    trashID={true} 
+                                                    enabledPencil={true}
+                                                    enabledTrash={true}/>
                                             </li>
                                             ))}</div>
                                         )
@@ -128,11 +126,7 @@ class NewPost extends Component {
 
 
 NewPost.propTypes = {
-    // categorias: PropTypes.array.isRequired,
-    // post: PropTypes.array.isRequired,
-    // initialValues: state.createPost,
     fetchCategorias: PropTypes.func.isRequired,
-   // fetchPosts: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({

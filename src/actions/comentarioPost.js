@@ -50,7 +50,6 @@ export function fetchRemoveCommentId( postID , token ) {
                 res.json()
              ))
              .then(data => (
-                console.log('Retorno do fetchRemoveCommentId:', data) , 
                 dispatch(fetchGetParentCommentId( data.parentId , token ))
              )
             );
@@ -70,10 +69,9 @@ export function addComentario(comment) {
 
 // Função para atualizar o Comentario
 export function setComment(comment) {
-   //  console.log('comment Action:', comment)     
     return {
         type: SET_COMENTARIOS,
-        comment:  comment /*.sort(voteCompare)*/,
+        comment:  comment ,
     }
 }
 
@@ -99,7 +97,6 @@ export function fetchVoteCommentScore(postID, token, vote , pai) {
         'Authorization': token
     }
     return dispatch => {
-        //         console.log('Entrei no dispatch VoteScore:',vote),  
         fetch('http://localhost:3001/comments/' + postID,
             {
                 method: 'POST',
@@ -107,11 +104,9 @@ export function fetchVoteCommentScore(postID, token, vote , pai) {
                 body: JSON.stringify({ 'option': vote })
             })
             .then(res => (
-                //             console.log('Retorno do res.json() VoteScore:', res),  
                 res
             ))
             .then(data => (
-                //            console.log('Retorno do VoteScore:', data),  
                 dispatch(fetchGetParentCommentId(pai , token ))
             )
             );
@@ -120,14 +115,6 @@ export function fetchVoteCommentScore(postID, token, vote , pai) {
 
 // Função que faz a atualização do Comentario (Body e Data)
 export function fetchUpdateComentarioPut(commentario , token , id ) {
-
-    console.log('Action.fetchUpdateComentarioPut:', JSON.stringify( commentario ));
- //  console.log('Action..fetchUpdateComentarioPut.TOKEN:',token);
- //   console.log('Action..fetchUpdateComentarioPut.ID:',commentario.id);
-    
-    let envio = { 'body': commentario.body , 'timestamp': commentario.timestamp }
-
-   // console.log('envio:', JSON.stringify(envio));
 
     const headers = {
         'Content-Type': 'application/json',
@@ -142,20 +129,10 @@ export function fetchUpdateComentarioPut(commentario , token , id ) {
                   body: JSON.stringify( commentario )
                    })
             .then(res => (
-                null
-          //     console.log('fetchUpdateComentarioPut adcionado:', res )
-               //,
-               //res.json()
+               res.json()
             ))
             .then(data => (
-                console.log('fetchUpdateComentarioPut data:', data ),
-                console.log('fetchUpdateComentarioPut comentario.id:', commentario.id ),
-                
-                //dispatch(addComentario( data ))  
-              //  dispatch(fetchGetPostId( data.parentId , token ))
-              dispatch(fetchGetParentCommentId( commentario.parentId , token ))
-               
-                
+                dispatch(fetchGetParentCommentId( commentario.parentId , token ))             
             )
            );
       }
@@ -184,9 +161,7 @@ export function fetchAddComentarioPost(commentario , token ) {
                res.json()
             ))
             .then(data => (
-              console.log('Retornando AddComentario data:', data ) ,
-              dispatch(fetchGetParentCommentId( data.parentId , token ))               
-                
+              dispatch(fetchGetParentCommentId( data.parentId , token ))              
             )
            );
       }
@@ -195,11 +170,7 @@ export function fetchAddComentarioPost(commentario , token ) {
 // Função que traz o(s) comentarios do parent
 export function fetchGetParentCommentId(parentId , token  ) {
 
-   console.log('Action...GET fetchGetParentCommentId:',  parentId );
-    console.log('Action...TOKEN fetchGetParentCommentId:',token);
-
     return dispatch => {
-    //        console.log('Entrei no dispatch fetchGetParentCommentId:'),  
             fetch( 'http://localhost:3001/posts/'+ parentId + '/comments', 
                 { method: 'GET', 
                   headers:  {'Content-Type': 'application/json',
@@ -208,11 +179,9 @@ export function fetchGetParentCommentId(parentId , token  ) {
                             } 
                 })
             .then(res => (
-                console.log('Retorno do res.json() fetchGetParentCommentId:', res),  
               res.json()
             ))
             .then(data => (
-               console.log('Retorno do fetchGetParentCommentId:', data),  
                dispatch(setParentCommentId(  data ))
             )
            );
@@ -225,12 +194,3 @@ function voteCompare(votea, voteb) {
     return votea.voteScore < voteb.voteScore;
 }
 
-// Função para ordenação da data de criação
-function voteCreateDate(voteDateA, voteDateB) {
-    return convertDate(voteDateA.timestamp) < convertDate(voteDateB.timestamp);
-}
-
-// Função para conversão de timestamp para formato DD/MM/YYYY
-function convertDate( data ) {
-    return new Intl.DateTimeFormat('pt-BR', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(data);
-}

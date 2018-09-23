@@ -8,13 +8,14 @@ import { fetchGetParentCommentId , fetchVoteCommentScore } from '../../actions/c
 import ViewPost from '../newpost/viewPost';
 import ModelForm from '../model/ModelForm';
 import ChildrenComentario from '../comentarios/ChildrenComentario';
+import NavMenu from '../navmenu//NavMenu';
+
 
 import {
     Panel,
     Row,
     Col,
-    Button,
-    Modal
+    Button
 }
     from 'react-bootstrap';
 
@@ -58,8 +59,6 @@ class ComentarioPost extends Component {
         console.log('state id :', this.state.parentId)
 
         this.parentId = localStorage.parentId = this.props.location.postagem.id;
-
-        console.log('atualizarParentId id :', this.parentId)
     }
 
     componentWillMount() {
@@ -68,23 +67,18 @@ class ComentarioPost extends Component {
 
     toggleModal = () => {
         this.setState({
-            show: !this.state.show,
-            countComment: this.state.countComment++
-            
+            show: !this.state.show            
         });
     }
 
     atualizarComent(updatestate) {
         this.setState({
             commentId: updatestate
-
         })
-        console.log('Update State:', this.state.commentId)
     }
 
     atualizarParentId() {
         setTimeout(() => {
-            console.log('atualizarParentId:', this.parentId)
             this.props.fetchGetParentCommentId(this.parentId, this.token);
         }, 2000);
     }
@@ -118,33 +112,21 @@ class ComentarioPost extends Component {
     handlerLink() {
 
         this.validarToken();
-
-        console.log('headers:', this.headers)
-
         this.props.fetchPosts(this.headers);
-
         setTimeout(() => {
             this.context.router.history.push('/');
         }, 1000);
-
     }
 
-    // convertDate( data ) {
-    //     return new Intl.DateTimeFormat('pt-BR', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(data);
-    // }
-
     render() {
-
-        console.log('Comentarios createPost:', this.props.location.state.commentId);
 
         let postagem = this.props.createPost.post.filter(post => post.id === this.props.location.state.commentId)[0]
 
         console.log('Comentarios:', postagem);
-        console.log('Comentarios this.state.id:', this.state.id);
-
         return (
             <div>
-                <div className="container" style={{ marginTop: 30 }}>
+                <NavMenu />
+                <div className="container" style={{ marginTop: 10 }}>
                     <Panel bsStyle="success">
                         <Panel.Heading >
                             <Panel.Title componentClass="h2">
@@ -156,7 +138,12 @@ class ComentarioPost extends Component {
                             </Panel.Title>
                         </Panel.Heading>
                         <Panel.Body>
-                            <ViewPost postagem={postagem} comentarios={true} desabilitarBotoes={true} />
+                            <ViewPost 
+                                postagem={postagem} 
+                                comentarios={true} 
+                                desabilitarBotoes={true}
+                                enabledPencil={false}
+                                enabledTrash={false} />
                         </Panel.Body>
                         <Panel.Footer>
                             <Button bsStyle="primary" type="button" onClick={this.toggleModal}>Adcionar Comentário</Button>
@@ -174,8 +161,12 @@ class ComentarioPost extends Component {
                     }
 
                 </div>
-                {console.log('ComentarioPost: ChildrenComentario')}
-                <ChildrenComentario children={this.parentId} desabilitarBotoes={false} />
+                <ChildrenComentario 
+                    children={this.parentId} 
+                    desabilitarBotoes={false}
+                    enabledPencil={true}
+                    enabledTrash={true} 
+                    />
             </div>
         );
     }
@@ -197,7 +188,7 @@ const mapStateToProps = (state) => {
     console.log('** parentId comentarios**:', this.parentId);
 
     console.log('** props comentarios**:', this.props);
-    
+
 
     return {
         post: state.posts,

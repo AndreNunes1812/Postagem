@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import ModelForm from '../model/ModelForm';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
-import { getInicialFetch, fetchAddPost, fetchPosts } from './../../actions/createPost';
+import { fetchAddPost, fetchPosts } from './../../actions/createPost';
+import NavMenu from '../navmenu/NavMenu';
 import {
     FormGroup,
     FormControl,
@@ -17,8 +17,8 @@ import {
 
 var divStyle = {
     background: "#eee",
-    padding: "20px",
-    margin: "20px"
+    padding: "10px",
+    margin: "15px"
 };
 
 const renderField = ({
@@ -45,7 +45,7 @@ class CreatePost extends Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = { update: false, post: { id:  '1234'+Math.round(Math.random()*10000000000000), timestamp: Date.now(), title: '', author: '', body: '', category: '', voteScore: 1, deleted: false } }
+        this.state = { update: false, post: { id: '1234' + Math.round(Math.random() * 10000000000000), timestamp: Date.now(), title: '', author: '', body: '', category: '', voteScore: 1, deleted: false } }
 
         this.handlerLink = this.handlerLink.bind(this);
         this.handlerClick = this.handlerClick.bind(this);
@@ -68,18 +68,10 @@ class CreatePost extends Component {
     }
 
     componentWillMount() {
-     //  this.props.fetchInitial();
-     // console.log('state:', this.props.location.state)
-
-
         if (this.props.location.state !== undefined) {
-         //   console.log('Update:', this.props.location.state.post);
             this.setState({ post: this.props.location.state.post });
             this.setState({ update: true });
-            
-         //   console.log(this.state.post)
         }
-
     }
 
     handlerLink() {
@@ -97,29 +89,19 @@ class CreatePost extends Component {
 
     async handlerClick() {
         this.validarToken();
-  
+
         const add = await this.props.fetchAddPost(this.state.post, this.token);
-        
-       // const jsonAdd = await add.json();
-
-       console.log('handlerClick headers:', this.headers)
-
-       const postAll = await this.props.fetchPosts(this.headers);
-
-    //    const jsonPostAll = await add.postAll(); 
-
-    //    console.log('jsonPostAll>>', jsonPostAll)
-
+        const postAll = await this.props.fetchPosts(this.headers);
         this.handlerLink();
     }
 
     render() {
         const { onChangeName } = this.props;
-
         let categorias = this.props.categorias;
-
         return (
+
             <div className="container">
+                <NavMenu />
                 <form >
                     <Panel style={divStyle} bsStyle="success">
                         <Panel.Heading >
@@ -178,7 +160,6 @@ class CreatePost extends Component {
                                         <FormControl
                                             name="post.body"
                                             componentClass="textarea"
-                                            //component={renderField} 
                                             onChange={onChangeName}
                                             className="form-control"
                                             placeholder="Comentário"
@@ -193,7 +174,7 @@ class CreatePost extends Component {
                                         />
                                     </FormGroup>
                                 </Col>
-                                { !this.state.update ? (<div>
+                                {!this.state.update ? (<div>
                                     <Col xs={6} md={6}>
                                         <FormGroup controlId="formControlsCategorias">
                                             <ControlLabel>Categorias</ControlLabel>
@@ -218,12 +199,9 @@ class CreatePost extends Component {
                                                     ))
                                                 }
                                             </Field>
-
                                         </FormGroup>
                                     </Col>
-
                                 </div>) : (<div>
-
                                     <Col xs={4} md={3}>
                                         <FormGroup controlId="formControlsCategorias">
                                             <ControlLabel>Categorias</ControlLabel>
@@ -248,10 +226,8 @@ class CreatePost extends Component {
                                                 className="form-control"
                                                 value={this.state.post.voteScore}>
                                             </FormControl>
-
                                         </FormGroup>
                                     </Col>
-
                                 </div>)}
                             </Row >
                         </Panel.Body>
@@ -267,14 +243,9 @@ class CreatePost extends Component {
                         </Panel.Footer>
                     </Panel>
                 </form>
-                {/* <ModelForm show={true}>
- 
-                </ModelForm> */}
-
             </div>
         );
     }
-
 }
 
 CreatePost.propTypes = {
@@ -282,10 +253,6 @@ CreatePost.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  //  console.log('** state **:', state);
-
- //   console.log('** initialValues **:', state.post);
-
     return {
         categorias: state.todos.categories,
         post: state.posts,
@@ -296,10 +263,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return (bindActionCreators({
-       // fetchInitial: () => getInicialFetch(),
         fetchAddPost: (post, token) => fetchAddPost(post, token),
         fetchPosts: (headers) => fetchPosts(headers)
-
     }, dispatch))
 }
 

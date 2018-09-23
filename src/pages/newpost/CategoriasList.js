@@ -1,16 +1,11 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 import { fetchCategoryPost } from '../../actions/createPost';
 
 
 class CategoriasList extends Component {
-
-    constructor(props) {
-        super(props)
-    }
 
     token = localStorage.token;   
 
@@ -22,14 +17,12 @@ class CategoriasList extends Component {
 
 
     handleClick(category) {
-        console.log('this is:', category);
         this.validarToken();
         this.props.fetchCategoryPost(category , this.token);
     }
 
     render() {
         const categorias = this.props.categorias;
-        console.log('CategoriasList:', categorias)
         return (
             <div>
                 <ul>

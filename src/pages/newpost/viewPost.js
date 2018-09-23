@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import ModelForm from '../model/ModelForm';
-import { fetchRemovePostId, fetchVoteScore } from '../../actions/createPost';
+import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost';
 import { fetchRemoveCommentId, fetchVoteCommentScore } from '../../actions/comentarioPost';
 
 import {
@@ -15,8 +15,7 @@ import {
     FormControl,
     ControlLabel,
     Button,
-    Glyphicon,
-    Field
+    Glyphicon
 }
     from 'react-bootstrap';
 
@@ -32,6 +31,11 @@ class ViewPost extends Component {
             countComment: 0
         }
 
+        this.headers = {
+            'Content-Type': 'application/json',
+            'Authorization': this.token
+        }
+
         this.handleClick = this.handleClick.bind(this);
         this.handleComnentClick = this.handleComnentClick.bind(this);
         this.handleTrash = this.handleTrash.bind(this);
@@ -40,12 +44,8 @@ class ViewPost extends Component {
     }
 
     componentDidMount() {
-        this.setState({countComment: this.props.postagem.commentCount})
+        this.setState({ countComment: this.props.postagem.commentCount })
         console.log('vote (Filho):', this.props.vote)
-    }
-
-    componentWillMount() {
-        //   console.log('ViewPost:',this.props.postagem)
     }
 
     token = localStorage.token;
@@ -58,7 +58,6 @@ class ViewPost extends Component {
         });
     }
 
-
     validarToken() {
         if (!this.token) {
             this.token = localStorage.token = Math.random().toString(36).substr(-8)
@@ -68,7 +67,6 @@ class ViewPost extends Component {
     handleClick(categoryID) {
         this.props.history.push(`/post`);
     }
-
 
     handleComnentClick(commentID) {
         this.props.history.push({
@@ -80,7 +78,7 @@ class ViewPost extends Component {
 
     handleTrash(deleteID) {
         this.validarToken();
-        console.log(' trashID={true}', this.props.trashID)
+        console.log(' trashID={true}', this.props.trashID, deleteID)
         if (this.props.trashID) {
             //Varificar quando for postagem ou comentario para deletar
             this.props.fetchRemovePostId(deleteID, this.token);
@@ -88,6 +86,9 @@ class ViewPost extends Component {
             // Codigo para remover Comentarios
             this.props.fetchRemoveCommentId(deleteID, this.token);
         }
+        setTimeout(() => {
+            this.props.fetchPosts(this.headers);
+        }, 700);
     }
 
     handleVoteScore(postId, voteScore, vote, pai) {
@@ -105,6 +106,7 @@ class ViewPost extends Component {
 
     render() {
         this.self = this.props;
+        console.log('this.self:', this.self)
         return (
             <div >
                 <Panel bsStyle="success">
@@ -146,17 +148,17 @@ class ViewPost extends Component {
                                 </FormGroup>
                             </Col>
                             {this.props.desabilitarBotoes ? (
-                            <Col xs={2} md={2}>
-                                <FormGroup controlId="formControlsTitulo">
-                                    <ControlLabel>Categoria</ControlLabel>
-                                    {}
-                                    <FormControl
-                                        type="text"
-                                        value={this.props.postagem.category}
-                                        className="form-control"
-                                    />
-                                </FormGroup>
-                            </Col>):(null)}
+                                <Col xs={2} md={2}>
+                                    <FormGroup controlId="formControlsTitulo">
+                                        <ControlLabel>Categoria</ControlLabel>
+                                        {}
+                                        <FormControl
+                                            type="text"
+                                            value={this.props.postagem.category}
+                                            className="form-control"
+                                        />
+                                    </FormGroup>
+                                </Col>) : (null)}
 
                         </Row>
                     </Panel.Body>
@@ -164,27 +166,24 @@ class ViewPost extends Component {
                         <Row>
                             <Col xs={8} md={8}>
                                 <FormGroup controlId="formControlsTitulo">
-
                                     <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'upVote', this.props.vote, this.props.postagem.parentId)}>
                                         <Glyphicon glyph="glyphicon glyphicon-hand-up" />
                                     </Button>
                                     <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'downVote', this.props.vote, this.props.postagem.parentId)}>
                                         <Glyphicon glyph="glyphicon glyphicon-hand-down" />
                                     </Button>
-                                    {this.props.desabilitarBotoes ? (
-
-                                        <Fragment>
-                                            <Link to={{
-                                                pathname: '/post',
-                                                state: { post: this.props.postagem }
-                                            }}
-                                            > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>
-                                            <Button bsStyle="link" onClick={() => this.handleTrash(this.props.postagem.id)}>
-                                                <Glyphicon glyph="glyphicon glyphicon-trash" />
-                                            </Button>
-                                        </Fragment>
+                                    {this.props.enabledPencil ? (
+                                        <Link to={{
+                                            pathname: '/post',
+                                            state: { post: this.props.postagem }
+                                        }}
+                                        > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>
                                     ) : (null)}
-                                    id:{this.props.postagem.id}
+                                    {this.props.enabledTrash ? (
+                                        <Button bsStyle="link" onClick={() => this.handleTrash(this.props.postagem.id)}>
+                                            <Glyphicon glyph="glyphicon glyphicon-trash" />
+                                        </Button>
+                                    ) : (null)}
                                 </FormGroup>
 
                             </Col>
@@ -202,7 +201,6 @@ class ViewPost extends Component {
                                 </Fragment>) : (
                                     <Fragment  >
                                         <Col xs={2} md={2} style={{ marginTop: 8 }}>
-                                        {console.log('sdfdsfdsfsfsdfsdfsdfsdfsdfsfsfsdfsdfs:', this.props)}
                                             <Button bsStyle="primary" type="button" onClick={this.toggleModal}>Editar Comentário</Button>
                                         </Col>
                                     </Fragment>
@@ -217,14 +215,14 @@ class ViewPost extends Component {
                 </Panel>
                 {this.state.show ? (
                     console.log('dentro do show:', this.props.postagem),
-                    <ModelForm 
-                        show={this.state.show} 
-                        postagem = {this.props.postagem}  
-                        headers={this.headers} 
+                    <ModelForm
+                        show={this.state.show}
+                        postagem={this.props.postagem}
+                        headers={this.headers}
                         onClose={this.toggleModal}
                         token={this.token}
                         son={this.state.son} />
-                ) : ( null )
+                ) : (null)
                 }
             </div>
         );
@@ -237,14 +235,14 @@ ViewPost.propTypes = {
     fetchVoteScore: PropTypes.func.isRequired,
     fetchRemoveCommentId: PropTypes.func.isRequired,
     fetchVoteCommentScore: PropTypes.func.isRequired,
-    //    fetchPosts: PropTypes.func.isRequired,
+    fetchPosts: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => {
     console.log('** state view **:', state);
 
     return {
-        //post: state.posts,
+        post: state.posts,
         token: this.token,
         headers: this.headers,
         voteScore: this.voteScore,
@@ -257,9 +255,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchRemovePostId: (post, token) => fetchRemovePostId(post, token),
         fetchVoteScore: (post, token, voteScore) => fetchVoteScore(post, token, voteScore),
         fetchRemoveCommentId: (post, token) => fetchRemoveCommentId(post, token),
-        fetchVoteCommentScore: (post, token, voteScore, pai) => fetchVoteCommentScore(post, token, voteScore, pai)
-
-        //   fetchPosts: () => fetchPosts()
+        fetchVoteCommentScore: (post, token, voteScore, pai) => fetchVoteCommentScore(post, token, voteScore, pai),
+        fetchPosts: (headers) => fetchPosts(headers)
     }, dispatch))
 }
 

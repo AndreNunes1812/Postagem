@@ -6,14 +6,11 @@ import { connect } from 'react-redux';
 import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost';
 import { fetchGetParentCommentId } from '../../actions/comentarioPost';
 import ViewPost from '../newpost/viewPost';
-import ModelForm from '../model/ModelForm';
 
 import {
     Panel,
     Row,
-    Col,
-    Button,
-    Modal
+    Col
 }
     from 'react-bootstrap';
 
@@ -34,8 +31,6 @@ class ChildrenComentario extends Component {
         }
 
         this.self = this;
-        // this.id = '';
-
         this.headers = {
             'Content-Type': 'application/json',
             'Authorization': this.token
@@ -46,26 +41,13 @@ class ChildrenComentario extends Component {
         this.atualizarComent = this.atualizarComent.bind(this);
         this.atualizarParentId = this.atualizarParentId.bind(this);
         this.validarToken = this.validarToken.bind(this);
-        // this.handleTrash = this.handleTrash.bind(this);
-        // this.handleVoteScore = this.handleVoteScore.bind(this);
-        // this.convertDate =  this.convertDate.bind(this);
-
     }
 
     componentDidMount() {
         this.setState({ id: this.props.location.state.commentId });
-     //   console.log('ChildrenComentario :')
-        // console.log('postagem:', this.props.location.postagem.id)
-     //   console.log('children :', this.props.children)
         this.validarToken();
         this.atualizarParentId();
         this.comentarios = this.props.comentarios;
-
-       // console.log('comentarios :', this.comentarios)
-    }
-
-    componentWillMount() {
-        // console.log('TESTE do andre :', this.props.children)
     }
 
     toggleModal = () => {
@@ -82,18 +64,17 @@ class ChildrenComentario extends Component {
 
     atualizarParentId() {
         setTimeout(() => {
-            this.parentId = localStorage.parentId ;
+            this.parentId = localStorage.parentId;
         }, 1000);
     }
 
     validarToken() {
         if (!this.token) {
-            this.token = localStorage.token =  Math.random().toString(36).substr(-8)
+            this.token = localStorage.token = Math.random().toString(36).substr(-8)
         }
     }
 
     handleClick() {
-        console.log('this is:');
         this.setState({ show: true });
     }
 
@@ -101,50 +82,25 @@ class ChildrenComentario extends Component {
     parentId = localStorage.parentId;
     vote = "filho";
 
-    // handleTrash(deleteID) {
-    //     console.log('deleted:', deleteID);
-    //     this.validarToken();
-    //     this.props.fetchRemovePostId(deleteID , this.token);  
-    // }
-
-    // handleVoteScore(postId , voteScore) {
-    //     this.validarToken();
-    //     console.log('VoteScore:', postId, voteScore);
-    //     this.props.fetchVoteScore(postId , this.token, voteScore );
-    // }
-
     handlerLink() {
 
         this.validarToken();
-
-        //this.props.fetchPosts(this.headers);
-
         setTimeout(() => {
             this.context.router.history.push('/');
         }, 1000);
-
     }
-
-    // convertDate( data ) {
-    //     return new Intl.DateTimeFormat('pt-BR', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(data);
-    // }
 
     render() {
 
         let postagem = [] //this.props.comentarios;
 
-        console.log('localStorage.parentId',localStorage.parentId)
-        
-        console.log('this.props.comentarios',this.props.comentarios)
+        console.log('this.props.comentarios', this.props.comentarios)
 
         if (this.props.comentarios === undefined) {
             console.log('indefinidos')
         } else {
-           postagem = this.props.comentarios.filter( post => post.parentId === localStorage.parentId)
+            postagem = this.props.comentarios.filter(post => post.parentId === localStorage.parentId)
         }
-           
-        console.log('Comentarios this.props.children:', this.props.children);
-        console.log('Comentarios postagem:', postagem);
 
         return (
             <div className="container" style={{ marginTop: 30 }}>
@@ -165,7 +121,13 @@ class ChildrenComentario extends Component {
                             ) :
                                 (<div>{postagem.map(post =>
                                     (<li key={post.id} style={{ listStyleType: "none" }}>
-                                        <ViewPost postagem={post} desabilitarBotoes={false}  vote={this.vote} />
+                                        <ViewPost
+                                            postagem={post}
+                                            desabilitarBotoes={false}
+                                            vote={this.vote}
+                                            enabledPencil={this.props.enabledPencil}
+                                            enabledTrash={this.props.enabledTrash}
+                                        />
 
                                     </li>
                                     ))}</div>
@@ -173,21 +135,7 @@ class ChildrenComentario extends Component {
                             }
                         </ul>
                     </Panel.Body>
-                    {/* <Panel.Footer>
-                        <Button bsStyle="primary" type="button" onClick={this.toggleModal}>Adcionar Comentário</Button>
-                        <Button bsStyle="link" onClick={this.handlerLink}>Voltar</Button>
-                    </Panel.Footer> */}
                 </Panel>
-                {/* {this.state.show ? (
-                    <ModelForm 
-                        show={this.state.show} 
-                        postagem = {postagem}  
-                        headers={this.headers} 
-                        onClose={this.toggleModal}
-                        token={this.token} />
-                ) : ( null )
-                } */}
-
             </div>
         );
     }
@@ -195,8 +143,6 @@ class ChildrenComentario extends Component {
 
 
 ChildrenComentario.propTypes = {
-    // fetchRemovePostId: PropTypes.func.isRequired,
-    // fetchVoteScore: PropTypes.func.isRequired,
     fetchPosts: PropTypes.func.isRequired,
     fetchGetParentCommentId: PropTypes.func.isRequired
 }

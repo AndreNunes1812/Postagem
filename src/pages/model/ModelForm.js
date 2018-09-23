@@ -42,16 +42,11 @@ class ModelForm extends Component {
     }
 
     componentDidMount() {
-        //  console.log('Entrei aki componentDidMount',this.props.postagem);
         this.atualizarShow(this.props.show)
         this.atualizarComentario();
         if (this.props.son) {
             this.atualizaBody();
         }
-
-
-        console.log('Recebimento do view Post Show:', this.props.postagem);
-        console.log('Sou filho:', this.props.son);
     }
 
     handleHide() {
@@ -59,23 +54,12 @@ class ModelForm extends Component {
     }
 
     handlerClickAdd() {
-        console.log('cliki', this.state.comment);
-        console.log('SON:', this.props.son);
-
         this.validarToken();
         this.atualizarComentario();
-
-
-        //////// setTimeout(() => {
-        //     this.props.fetchPosts(this.headers);
-        // }, 500);
 
         if (this.props.son) {
 
             setTimeout(() => {
-                console.log('ModelForms Props:', this.props.son, this.props.postagem)
-                console.log('ModelForms State:', this.props.son, this.state.comment)
-
                 if (this.props.son === true) {
                     let value = { id: this.props.postagem.id, timestamp: Date.now(), body: this.state.comment.body, author: this.state.comment.author, parentId: this.props.postagem.parentId }
                     this.props.fetchUpdateComentarioPut(value, this.token, this.props.postagem.parentId);
@@ -87,10 +71,13 @@ class ModelForm extends Component {
 
             setTimeout(() => {
                 this.props.fetchAddComentarioPost(this.state.comment, this.token);
-                this.setState({})
             }, 1000);
 
         }
+
+        setTimeout(() => {
+            this.props.fetchPosts(this.headers);
+        }, 1000);
 
         this.handleHide();
     }
@@ -135,14 +122,8 @@ class ModelForm extends Component {
     token = localStorage.token;
 
     render() {
-        //  console.log('asasasa:', this.props.postagem);
-        //  console.log('show de bola:', this.props.show);
-        //   console.log('comentarios:', this.postagemComment);
-        const postagem = this.props.createPost.post;
-
         return (
             <div className="container" >
-
                 <Modal
                     show={this.state.show}
                     onHide={this.handleHide}
@@ -162,8 +143,6 @@ class ModelForm extends Component {
                                     <FormControl
                                         name="comment.author"
                                         type="text"
-                                        //component={renderField}
-                                        //onChange={onChangeName}
                                         className="form-control"
                                         placeholder="Author"
                                         value={this.state.comment.author}
@@ -184,8 +163,6 @@ class ModelForm extends Component {
                                         name="comment.body"
                                         type="text"
                                         componentClass="textarea"
-                                        //component={renderField}
-                                        //onChange={onChangeName}
                                         className="form-control"
                                         placeholder="Comentário"
                                         value={this.state.comment.body}
@@ -204,9 +181,6 @@ class ModelForm extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Row>
-                            <Col xs={1} md={1}>
-                                ID:{this.props.son ? this.props.postagem.id : this.state.comment.id}
-                            </Col>
                             <Col xs={11} md={11}>
                                 <Button bsStyle="primary" onClick={this.handlerClickAdd} >Salvar</Button>
                                 <Button onClick={this.handleHide}>Voltar</Button>
@@ -229,22 +203,13 @@ ModelForm.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-    //  console.log('** state Model **:', state);
-
-    //  console.log('** initialValues Model **:', state.comment);
-
-    //   console.log('** Model postagem**:', this.postagem);
-
     return {
-
         comment: state.comment,
         token: this.token,
         headers: this.headers,
         postagemComment: state,
         createPost: state.createPost,
-        idEnvio: state.comment,
-
-
+        idEnvio: state.comment
     }
 }
 
