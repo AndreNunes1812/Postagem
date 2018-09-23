@@ -31,7 +31,8 @@ Ainda é possível criar novas postagens, após a criação das postagens você 
 #### Página de Postagem / Comentários
 
 Pode-se criar quantas postagens necessárias bem como avaliar positivamente ou negativamente cada postagem / comentario.<br />
-Pode-se excluir os comentarios das postagens e excluir as postagens.
+Pode-se excluir os comentarios das postagens e excluir as postagens.<br />
+Pode-se editar o conteúdo dos comentários
 
 ### Gerenciamento do estado
 #### O estado do aplicativo é gerenciado pelo Redux?
@@ -95,7 +96,7 @@ Todos os comentários de uma postagem são exibidos abaixo do corpo de texto da 
 
 Um mecanismo para a adição de novos comentários está visível na página de detalhes e funciona.<br />
 
-#### Os usuários podem adicionar novas postagens?
+### Os usuários podem adicionar novas postagens?
 
 O aplicativo possui um formulário para criação de novas postagens. Enviar o formulário adiciona corretamente a postagem à categoria correta.
 
@@ -115,20 +116,13 @@ Existe um mecanismo para a remoção de postagens e comentários. Clicar no bot�
 
 O usuário é capaz de navegar entre as páginas de detalhes da postagem, página principal e categorias sem que seja preciso digitar seu endereço na barra de endereços.
 
-
-
-### Os usuários podem adicionar comentários?
-
-
 #### Lembrete:
-
-Foi disponibilizado um modelo do projeto contendo informações basicas de layout e css, **Não** informando nenhuma aplicabilidade sobre "REACT".
 
 * Para a instalação das dependencia do projeto é necessario está dentro da pasta do projeto e      digitar `npm install`
 
 * Para executar a aplicação: `npm start`
 
-## O Projeto MyReads oferece a seguinte estrutura:
+## O Projeto Leitura oferece a seguinte estrutura:
 ```bash
 ├── CONTRIBUTING.md
 ├── README.md - This file.
