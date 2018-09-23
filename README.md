@@ -9,39 +9,30 @@ O sistema consiste em gerenciar postagem / comentarios, os usuarios podem criar 
 ## Especificação do projeto:
 
 #### Configuração do Projeto
-A aplicação foi criada com o create-react-app e exige apenas o npm install e npm start para  ser instalada e iniciada (ou com yarn).<br />
-Um README atualizado que descreve o projeto e tem instruções para instalar e rodar o projeto estão incluídas no README.
+A aplicação foi criada com o create-react-app, após a aplicação criada, entrar dentro do projeto e digitar o comando npm install para instalar todas as dependencia necessarias e após digitar npm start para que a aplicação seja iniciada (ou com yarn).<br />
+O arquivo README descreve todas as funcionalidades do projeto.
 
 ####  Página principal 
 A página principal esta dividida em três areas, sendo a exibição das postagens, controle de exibição das categorias
-e a ordenação por data / score.<br />
+e a ordenação por data / score.
 Ainda é possível criar novas postagens, após a criação das postagens você poderar criar comentarios para as postagens criadas
 
 #### Página de Postagem - Formulário basico de cadastro contendo as seguintes informações
 
-1)Título do Post
-2)Comentário
-3)Autor
-4)Categoria
+1)Título do Post<br />
+2)Comentário<br />
+3)Autor<br />
+4)Categoria<br />
 
 ####  Página de Comentários - Formulário basico de cadastro contendo as seguintes informações
 
-1)Comentário
+1)Comentário<br />
 2)Autor
 
 #### Página de Postagem / Comentários
 
-Voce pode criar quantas postagens necessárias e tambem avaliar positivamente ou negativamente cada postagem / comentario.<br />
-Voce pode excluir os comentarios das postagens.
-
-### Rotas
-#### A página principal conecta-se à página de busca?
-A página principal contém um link para a página de busca. Ao clicar neste link, a página de busca é exibida e a URL no endereço do navegador é /search.
-
-A página de busca é exibida corretamente ao entrar na página inserindo /search diretamente na URL do projeto no navegador.
-
-#### A página de busca conecta-se de volta à página principal?
-A página de busca contém um link para a página principal. Ao clicar neste link, a página principal é exibida e a URL no endereço do navegador é /.
+Pode-se criar quantas postagens necessárias bem como avaliar positivamente ou negativamente cada postagem / comentario.<br />
+Pode-se excluir os comentarios das postagens e excluir as postagens.
 
 ### Funcionalidade do código
 #### O código do projeto lida com o gerenciamento de estado de forma adequada?
