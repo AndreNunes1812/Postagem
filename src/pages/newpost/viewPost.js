@@ -45,13 +45,11 @@ class ViewPost extends Component {
 
     componentDidMount() {
         this.setState({ countComment: this.props.postagem.commentCount })
-        console.log('vote (Filho):', this.props.vote)
     }
 
     token = localStorage.token;
 
     toggleModal = () => {
-        console.log('toogle')
         this.setState({
             show: !this.state.show,
             son: true
@@ -78,7 +76,6 @@ class ViewPost extends Component {
 
     handleTrash(deleteID) {
         this.validarToken();
-        console.log(' trashID={true}', this.props.trashID, deleteID)
         if (this.props.trashID) {
             //Varificar quando for postagem ou comentario para deletar
             this.props.fetchRemovePostId(deleteID, this.token);
@@ -106,7 +103,6 @@ class ViewPost extends Component {
 
     render() {
         this.self = this.props;
-        console.log('this.self:', this.self)
         return (
             <div >
                 <Panel bsStyle="success">
@@ -214,7 +210,6 @@ class ViewPost extends Component {
                     </Panel.Footer>
                 </Panel>
                 {this.state.show ? (
-                    console.log('dentro do show:', this.props.postagem),
                     <ModelForm
                         show={this.state.show}
                         postagem={this.props.postagem}
@@ -239,8 +234,6 @@ ViewPost.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-    console.log('** state view **:', state);
-
     return {
         post: state.posts,
         token: this.token,

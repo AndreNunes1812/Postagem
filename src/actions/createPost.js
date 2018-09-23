@@ -20,7 +20,6 @@ export function getInicialFetch() {
 
 // Função para atualizar adcionar o Post
 export function addPost(post) {
-    // console.log('AddPost ==>', posts)
     return {
         type: ADD_POST,
         post: post,
@@ -29,8 +28,6 @@ export function addPost(post) {
 
 // Função para atualizar o Post
 export function setPosts(posts) {
-    //console.log('Posts Action:', posts)
-
     return {
         type: SET_POSTS,
         post: posts.sort(voteCompare),
@@ -39,7 +36,6 @@ export function setPosts(posts) {
 
 // Função para atualizar o VoteScore
 export function setVoteScorePost(post) {
-    // console.log('VoteScore Action:', post)
     return {
         type: SET_VOTE_POSTS,
         post: post,
@@ -48,7 +44,6 @@ export function setVoteScorePost(post) {
 
 // Função para remover o Post
 export function setRemovePost(post) {
-    //  console.log('Remove Action:', post)
     return {
         type: REMOVE_POST,
         payload: post,
@@ -57,7 +52,6 @@ export function setRemovePost(post) {
 
 // Função para retornar a Data Ordenada
 export function setOrdenacaoData(post) {
-   // console.log('Remove Action:', post)
     return {
         type: SET_ORDENAR_POST,
         post: post,
@@ -83,7 +77,6 @@ export function fetchOrdenarScorePost(posts) {
 
 // Função que faz a inclusão na API
 export function fetchAddPost(post, token) {
-    console.log('fetchAddPost: ', post)
     const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -100,9 +93,7 @@ export function fetchAddPost(post, token) {
                 res.json()
             ))
             .then(data => (
-                // dispatch(addPost( data ))  
-                // dispatch(fetchPosts( headers ))
-                console.log('fetchAddPost data: ', data)
+                null
             )
             );
     }
@@ -172,8 +163,6 @@ export const editPost = (id) => {
 
 // Função que traz todos os post
 export function fetchPosts(headers) {
-
-    console.log('fetchPosts:', headers)
     return dispatch => {
         fetch('http://localhost:3001/posts', { headers })
             .then(res => (

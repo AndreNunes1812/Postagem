@@ -54,9 +54,6 @@ class CreatePost extends Component {
             'Content-Type': 'application/json',
             'Authorization': this.token
         }
-
-        // console.log('Props===>', this.state.post)
-
     }
 
     token = localStorage.token;
@@ -76,9 +73,6 @@ class CreatePost extends Component {
 
     handlerLink() {
         this.validarToken();
-
-        console.log('handlerLink headers:', this.headers)
-
         this.props.fetchPosts(this.headers);
 
         setTimeout(() => {

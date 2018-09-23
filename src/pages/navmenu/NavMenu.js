@@ -13,7 +13,6 @@ class NavMenu extends Component {
   }
 
   clicked(e) {
-    console.log('sfsfdsfsd', e)
     e.preventDefault()
     this.context.router.history.push('/');
   }

@@ -1,7 +1,6 @@
 export const SET_CATEGORIAS = 'SET_CATEGORIAS';
 
 export function setCategorias(categorias) {
-    console.log('Categorias:', categorias)
     return {
         type: SET_CATEGORIAS,
         categorias,

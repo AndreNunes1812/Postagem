@@ -56,7 +56,6 @@ export function fetchRemoveCommentId( postID , token ) {
 
 // Função para atualizar e adcionar o Comentario
 export function addComentario(comment) {
-    console.log('AddComentario ==>', comment)
     return {
         type: ADD_COMENTARIO,
         comment: comment,
@@ -73,7 +72,6 @@ export function setComment(comment) {
 
 // Função para atualizar o(s) comentario(s) do ParentID
 export function setParentCommentId(comment) {
-   console.log('setParentCommentId Action:', comment)     
    return {
        type: SET_PARENT_ID_COMENTARIOS,
        comment: comment.sort(voteCompare),
