@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 var divStyle = {
     background: "#eee",
     padding: "20px",

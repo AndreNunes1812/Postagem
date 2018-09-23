@@ -31,8 +31,6 @@ export function getInicialCommetFetch() {
 
 // function marcar Comentario para delete TRUE
 export function fetchRemoveCommentId( postID , token ) {
-    console.log('Action...fetchRemoveCommentId',  postID );
-    console.log('Action...fetchRemoveCommentId TOKEN :',token);
  
      const headers = {
          'Content-Type': 'application/json',
@@ -40,13 +38,11 @@ export function fetchRemoveCommentId( postID , token ) {
          'Authorization': token
      }
      return dispatch => {
-    //         console.log('Entrei no dispatch RemoveID:'),  
              fetch( 'http://localhost:3001/comments/'+ postID, 
                  { method: 'DELETE', 
                    headers:  headers 
                  })
              .then(res => (
-    //             console.log('Retorno do res.json() RemoveID:', res),  
                 res.json()
              ))
              .then(data => (
@@ -87,10 +83,6 @@ export function setParentCommentId(comment) {
 
 // VoteScore Comentarios
 export function fetchVoteCommentScore(postID, token, vote , pai) {
-
-   //  console.log('Action...POST fetchVoteCommentScore:', JSON.stringify( pai ));
-    // console.log('Action...TOKEN VoteScore:',token);
-
     const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -142,9 +134,6 @@ export function fetchUpdateComentarioPut(commentario , token , id ) {
 // Função que faz a inclusão na API
 export function fetchAddComentarioPost(commentario , token ) {
 
-    console.log('Action.commentario..POST:', JSON.stringify( commentario ));
-    console.log('Action..commentario.TOKEN:',token);
-
     const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -157,7 +146,6 @@ export function fetchAddComentarioPost(commentario , token ) {
                   headers, 
                   body: JSON.stringify( commentario )  })
             .then(res => (
-           //    console.log('AddComentario:', res ),
                res.json()
             ))
             .then(data => (

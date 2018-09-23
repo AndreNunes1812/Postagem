@@ -254,7 +254,7 @@ CreatePost.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        categorias: state.todos.categories,
+        categorias: state.categorias.categories,
         post: state.posts,
         token: this.token,
         headers: this.headers

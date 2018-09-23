@@ -214,17 +214,13 @@ export function fetchRemovePostId(postID, token) {
 
 // VoteScore Postagem
 export function fetchVoteScore(postID, token, vote) {
-
-    // console.log('Action...POST VoteScore:', JSON.stringify( postID ));
-    // console.log('Action...TOKEN VoteScore:',token);
-
     const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': token
     }
     return dispatch => {
-        //         console.log('Entrei no dispatch VoteScore:',vote),  
+
         fetch('http://localhost:3001/posts/' + postID,
             {
                 method: 'POST',
@@ -235,12 +231,10 @@ export function fetchVoteScore(postID, token, vote) {
                 },
                 body: JSON.stringify({ 'option': vote })
             })
-            .then(res => (
-                //             console.log('Retorno do res.json() VoteScore:', res),  
+            .then(res => (               
                 res
             ))
             .then(data => (
-                //            console.log('Retorno do VoteScore:', data),  
                 dispatch(fetchPosts(headers))
             )
             );

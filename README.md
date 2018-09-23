@@ -136,75 +136,120 @@ O usuário é capaz de navegar entre as páginas de detalhes da postagem, págin
     ├── App.css # Styles for your app. Feel free to customize this as you desire.
     ├── App.js # This is the root of your app. Contains static HTML right now.
     ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.    
-    ├── actions # Class showing the books on the shelf
-    ├── pages # Class showing the books on the shelf
-    ├── reducers # Class showing the books on the shelf
-    ├── routes # Class showing the books on the shelf
-    ├── store # Class showing the books on the shelf
+    ├── actions # são fontes de informações que são enviadas da aplicação para a Store. São disparadas pelas Action Creators, que são simples funções que, ao serem executadas, ativam os Reducers.
+        ├── categorias # Informações da store  # de categorias
+        ├── comentarioPost # Informações da store de postagem de comentarios
+        ├── createPost # Informações da store de criação do Post
+    ├── pages # Pasta utilizada para organizar as funcionalidades do projeto
+        ├── comentarios # layout da pagina de comentarios
+        ├── createPost # layout da pagina de criação da Postagem
+        ├── error # layout da pagina de Error
+        ├── model # layout do Model para atender quando for adcionar os comentarios
+        ├── navMenu # layout da tela de navegação.
+        ├── newPost # layout da telas das postagens , cetegorias , ordenação e criação de uma nova postagem.
+    ├── reducers # recebem e tratam as informações para que sejam (ou não) enviadas à Store.
+    ├── routes # Controla o acesso da aplicação
+    ├── store # é o container que armazena e centraliza o estado geral da aplicação. Ela é imutável, ou seja, nunca se altera, apenas evolui.
     ├── index.css # Global styles. You probably won't need to change anything here.
     └── index.js # You should not need to modify this file. It is used for DOM rendering only.
-    └── history.js # You should not need to modify this file. It is used for DOM     
+    └── history.js #     
 ```
 
-Uma boa pratica é documentar todo(s) arquivo(s) criado(s) dentro da estrutura informada acima.
 
-## Recursos Utilizados:
-### Expressões regulares:
-São padrões utilizados para selecionar combinações de caracteres em uma string. Em JavaScript, expressões regulares também são objetos.<br />
-Elas podem ser utilizadas com os métodos exec e test do objeto RegExp, e com os métodos match, replace, search, e split do objeto String. Este capítulo descreve o uso de expressões regulares em JavaScript.[`clique aqui`](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions)
 
-### Debounce:
-O Debounce, assim como o throttle, limita a quantidade de vezes que um determinado trecho de código é executado em relação ao tempo. Mas diferentemente do throttle — que assegura que aconteçam no máximo 1 execução a cada X milisegundos —, o debounce irá postergar a execução do código caso ele seja invocado novamente em menos de X segundos.
-[`clique aqui`](https://www.npmjs.com/package/debounce)
+## Para simplificar o desenvolvimento foi disponibilizado uma API. Segue abaixo os metodos para execução, conforme descrito abaixo em *inglês*.
 
-## Pesquisa de Livro(s)
+ Welcome to the Udacity Readable API!
 
-Para simplificar o desenvolvimento da pesquisa foi fornecida uma API **BOOKSAPI** para integrar ao projeto, conforme descrito abaixo em *inglês*.
+    Use an Authorization header to work with your own data:
 
-We've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
+    fetch(url, { headers: { 'Authorization': 'whatever-you-want' }})
 
-* [`getAll`](#getall)
-* [`update`](#update)
-* [`search`](#search)
+    The following endpoints are available:
 
-### `getAll`
+    GET /categories
+      USAGE:
+        Get all of the categories available for the app. List is found in categories.js.
+        Feel free to extend this list as you desire.
 
-Method Signature:
+    GET /:category/posts
+      USAGE:
+        Get all of the posts for a particular category
 
-```js
-getAll()
-```
+    GET /posts
+      USAGE:
+        Get all of the posts. Useful for the main page when no category is selected.
 
-* Returns a Promise which resolves to a JSON object containing a collection of book objects.
-* This collection represents the books currently in the bookshelves in your app.
+    POST /posts
+      USAGE:
+        Add a new post
 
-### `update`
+      PARAMS:
+        id - UUID should be fine, but any unique id will work
+        timestamp - timestamp in whatever format you like, you can use Date.now() if you like
+        title - String
+        body - String
+        author - String
+        category: Any of the categories listed in categories.js. Feel free to extend this list as you desire.
 
-Method Signature:
+    GET /posts/:id
+      USAGE:
+        Get the details of a single post
 
-```js
-update(book, shelf)
-```
+    POST /posts/:id
+      USAGE:
+        Used for voting on a post
+      PARAMS:
+        option - String: Either "upVote" or "downVote"
 
-* book: `<Object>` containing at minimum an `id` attribute
-* shelf: `<String>` contains one of ["wantToRead", "currentlyReading", "read"]  
-* Returns a Promise which resolves to a JSON object containing the response data of the POST request
+    PUT /posts/:id
+      USAGE:
+        Edit the details of an existing post
+      PARAMS:
+        title - String
+        body - String
 
-### `search`
+    DELETE /posts/:id
+      USAGE:
+        Sets the deleted flag for a post to 'true'.
+        Sets the parentDeleted flag for all child comments to 'true'.
 
-Method Signature:
+    GET /posts/:id/comments
+      USAGE:
+        Get all the comments for a single post
 
-```js
-search(query)
-```
+    POST /comments
+      USAGE:
+        Add a comment to a post
 
-* query: `<String>`
-* Returns a Promise which resolves to a JSON object containing a collection of a maximum of 20 book objects.
-* These books do not know which shelf they are on. They are raw results only. You'll need to make sure that books have the correct state while on the search page.
+      PARAMS:
+        id: Any unique ID. As with posts, UUID is probably the best here.
+        timestamp: timestamp. Get this however you want.
+        body: String
+        author: String
+        parentId: Should match a post id in the database.
 
-## Importante
+    GET /comments/:id
+      USAGE:
+        Get the details for a single comment
 
-A API de back-end usa um conjunto fixo de resultados de pesquisa em cache e é limitada a um conjunto específico de termos de pesquisa, que podem ser encontrados em SEARCH_TERMS.md. Essa lista de termos são os únicos termos que funcionarão com o back-end, por isso não se surpreenda se suas pesquisas por Basket Weaving ou Bubble Wrap não retornarem nenhum resultado.
+    POST /comments/:id
+      USAGE:
+        Used for voting on a comment.
+      PARAMS:
+        option - String: Either "upVote" or "downVote"
+
+    PUT /comments/:id
+      USAGE:
+        Edit the details of an existing comment
+
+      PARAMS:
+        timestamp: timestamp. Get this however you want.
+        body: String
+
+    DELETE /comments/:id
+      USAGE:
+        Sets a comment's deleted flag to 'true'
 
 ## Create React App
 

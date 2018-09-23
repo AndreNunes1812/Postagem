@@ -47,17 +47,10 @@ class ComentarioPost extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.atualizarComent = this.atualizarComent.bind(this);
         this.atualizarParentId = this.atualizarParentId.bind(this);
-        // this.handleTrash = this.handleTrash.bind(this);
-        // this.handleVoteScore = this.handleVoteScore.bind(this);
-        // this.convertDate =  this.convertDate.bind(this);
-
     }
 
     componentDidMount() {
         this.setState({ id: this.props.location.state.commentId });
-        console.log('postagem:', this.props.location.postagem.id)
-        console.log('state id :', this.state.parentId)
-
         this.parentId = localStorage.parentId = this.props.location.postagem.id;
     }
 
@@ -90,27 +83,13 @@ class ComentarioPost extends Component {
     }
 
     handleClick() {
-        console.log('this is:');
         this.setState({ show: true });
     }
 
     token = localStorage.token;
     parentId = localStorage.parentId;
 
-    // handleTrash(deleteID) {
-    //     console.log('deleted:', deleteID);
-    //     this.validarToken();
-    //     this.props.fetchRemovePostId(deleteID , this.token);  
-    // }
-
-    // handleVoteScore(postId , voteScore) {
-    //     this.validarToken();
-    //     console.log('VoteScore:', postId, voteScore);
-    //     this.props.fetchVoteScore(postId , this.token, voteScore );
-    // }
-
     handlerLink() {
-
         this.validarToken();
         this.props.fetchPosts(this.headers);
         setTimeout(() => {
@@ -122,7 +101,6 @@ class ComentarioPost extends Component {
 
         let postagem = this.props.createPost.post.filter(post => post.id === this.props.location.state.commentId)[0]
 
-        console.log('Comentarios:', postagem);
         return (
             <div>
                 <NavMenu />
@@ -174,21 +152,12 @@ class ComentarioPost extends Component {
 
 
 ComentarioPost.propTypes = {
-    // fetchRemovePostId: PropTypes.func.isRequired,
-    // fetchVoteScore: PropTypes.func.isRequired,
     fetchPosts: PropTypes.func.isRequired,
     fetchGetParentCommentId: PropTypes.func.isRequired,
     fetchVoteCommentScore: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => {
-
-    console.log('** state comentarios **:', state);
-
-    console.log('** parentId comentarios**:', this.parentId);
-
-    console.log('** props comentarios**:', this.props);
-
 
     return {
         post: state.posts,

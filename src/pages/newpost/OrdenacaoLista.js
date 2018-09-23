@@ -57,7 +57,6 @@ class OrdenacaoLista extends Component {
 
 
 const mapStateToProps = state => ({
-   // todos: state.todos,
     createPost: state.createPost,
 });
 

@@ -1,6 +1,6 @@
 const initialCreatePost = []
 
-export default function todos(state = initialCreatePost , action  ) {
+export default function categorias(state = initialCreatePost , action  ) {
     switch (action.type) {
         case 'ADD_TODO':
             return [ ...state ,  { 

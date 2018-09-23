@@ -92,12 +92,9 @@ class ChildrenComentario extends Component {
 
     render() {
 
-        let postagem = [] //this.props.comentarios;
-
-        console.log('this.props.comentarios', this.props.comentarios)
+        let postagem = [] 
 
         if (this.props.comentarios === undefined) {
-            console.log('indefinidos')
         } else {
             postagem = this.props.comentarios.filter(post => post.parentId === localStorage.parentId)
         }
@@ -148,11 +145,6 @@ ChildrenComentario.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-
-    console.log('** ChildrenComentario state **:', state);
-
-    console.log('** ChildrenComentario parentId **:', this.parentId);
-
     return {
         post: state.posts,
         parentId: this.token,

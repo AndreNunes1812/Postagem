@@ -16,10 +16,6 @@ class NavMenu extends Component {
     console.log('sfsfdsfsd', e)
     e.preventDefault()
     this.context.router.history.push('/');
-    // this.props.history.push({
-    //   pathname: '/',
-    // })
-
   }
 
   render() {

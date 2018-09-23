@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import { fetchCategorias } from '../../actions/todos';
+import { fetchCategorias } from '../../actions/categorias';
 import { fetchPosts } from '../../actions/createPost';
 
 import NavMenu from '../navmenu/NavMenu';
@@ -64,7 +64,7 @@ class NewPost extends Component {
 
     render() {
 
-        const categorias = this.props.todos.categories
+        const categorias = this.props.categorias.categories
         const postagem = this.props.createPost.post;
 
         return (
@@ -130,7 +130,7 @@ NewPost.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    todos: state.todos,
+    categorias: state.categorias,
     createPost: state.createPost,
 });
 
