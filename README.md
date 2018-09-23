@@ -4,17 +4,17 @@ Este projeto atende ao segundo modulo do **Programa Nanodegree - Desenvolvimento
 
 ## Objetivo
 
-O sistema gerencia postagem / comentários os usuarios podem criar novas postagens bem como comentar suas propias postagens.
+O sistema gerencia postagem / comentários, os usuarios podem criar novas postagens bem como comentar suas propias postagens.
 
 ## Especificação do projeto:
 
 #### Configuração do Projeto
-A aplicação foi criada com o create-react-app, após a aplicação criada entrar dentro do projeto gerado e digitar o comando npm install para instalar todas as dependência necessárias e após digitar npm start para que a aplicação seja iniciada (ou com yarn).<br />
+A aplicação foi criada com o create-react-app, após a aplicação criada entrar dentro do projeto gerado e digitar o comando npm install para instalar todas as dependência necessárias e após, digitar npm start para que a aplicação seja iniciada.<br />
 O arquivo README descreve todas as funcionalidades do projeto.
 
 ####  Página principal 
-A página principal esta dividida em três areas, sendo a exibição das postagens, controle de exibição das categorias e a ordenação por data / score.
-Ainda é possível criar novas postagens, após a criação das postagens você poderar criar comentarios para as postagens criadas
+A página principal foi dividida em três areas, sendo a exibição das postagens, controle de exibição das categorias e a ordenação das postagens por data / score.
+Ainda é possível criar novas postagens, após a criação das postagens você poderar criar comentarios para as postagens criadas.
 
 #### Página de Postagem - Formulário basico de cadastro contendo as seguintes informações
 
@@ -31,7 +31,7 @@ Ainda é possível criar novas postagens, após a criação das postagens você 
 #### Página de Postagem / Comentários
 
 Pode-se criar quantas postagens necessárias bem como avaliar positivamente ou negativamente cada postagem / comentario.<br />
-Pode-se excluir os comentarios das postagens e excluir as postagens.<br />
+Pode-se excluir os comentários das postagens bem como excluir as postagens.<br />
 Pode-se editar o conteúdo dos comentários
 
 ### Gerenciamento do estado
@@ -118,7 +118,7 @@ O usuário é capaz de navegar entre as páginas de detalhes da postagem, págin
 
 #### Lembrete:
 
-* Para a instalação das dependencia do projeto é necessario está dentro da pasta do projeto e      digitar `npm install`
+* Para a instalação das dependência do projeto é necessário está dentro da pasta do projeto e digitar `npm install`
 
 * Para executar a aplicação: `npm start`
 
@@ -131,19 +131,19 @@ O usuário é capaz de navegar entre as páginas de detalhes da postagem, págin
 ├── public
 │   ├── favicon.ico # React Icon, You may change if you wish.
 │   └── index.html # DO NOT MODIFY
+│   └── manifest.json # DO NOT MODIFY
 └── src
     ├── App.css # Styles for your app. Feel free to customize this as you desire.
     ├── App.js # This is the root of your app. Contains static HTML right now.
-    ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
-    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
-    ├── ListBooks.js # Class showing the books on the shelf
-    ├── SearchBooks # Class that manages book searches directly from the API (BooksAPI)
-    ├── icons # Helpful images for your app. Use at your discretion.
-    │   ├── add.svg
-    │   ├── arrow-back.svg
-    │   └── arrow-drop-down.svg
+    ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.    
+    ├── actions # Class showing the books on the shelf
+    ├── pages # Class showing the books on the shelf
+    ├── reducers # Class showing the books on the shelf
+    ├── routes # Class showing the books on the shelf
+    ├── store # Class showing the books on the shelf
     ├── index.css # Global styles. You probably won't need to change anything here.
     └── index.js # You should not need to modify this file. It is used for DOM rendering only.
+    └── history.js # You should not need to modify this file. It is used for DOM     
 ```
 
 Uma boa pratica é documentar todo(s) arquivo(s) criado(s) dentro da estrutura informada acima.
