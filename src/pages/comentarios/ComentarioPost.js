@@ -10,7 +10,6 @@ import ModelForm from '../model/ModelForm';
 import ChildrenComentario from '../comentarios/ChildrenComentario';
 import NavMenu from '../navmenu//NavMenu';
 
-
 import {
     Panel,
     Row,
@@ -18,7 +17,6 @@ import {
     Button
 }
     from 'react-bootstrap';
-
 
 class ComentarioPost extends Component {
 
@@ -59,9 +57,11 @@ class ComentarioPost extends Component {
     }
 
     toggleModal = () => {
-        this.setState({
-            show: !this.state.show            
-        });
+        this.setState((prevState) => {
+            return {
+               show: !prevState.show
+            }
+         })
     }
 
     atualizarComent(updatestate) {
@@ -120,8 +120,8 @@ class ComentarioPost extends Component {
                                 postagem={postagem} 
                                 comentarios={true} 
                                 desabilitarBotoes={true}
-                                enabledPencil={false}
-                                enabledTrash={false} />
+                                ativarEdicao={false}
+                                ativarLixeira={false} />
                         </Panel.Body>
                         <Panel.Footer>
                             <Button bsStyle="primary" type="button" onClick={this.toggleModal}>Adcionar Comentário</Button>
@@ -142,8 +142,8 @@ class ComentarioPost extends Component {
                 <ChildrenComentario 
                     children={this.parentId} 
                     desabilitarBotoes={false}
-                    enabledPencil={true}
-                    enabledTrash={true} 
+                    ativarEdicao={true}
+                    ativarLixeira={true} 
                     />
             </div>
         );

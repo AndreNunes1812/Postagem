@@ -60,7 +60,7 @@ class ModelForm extends Component {
         if (this.props.son) {
 
             setTimeout(() => {
-                if (this.props.son === true) {
+                if (this.props.son) {
                     let value = { id: this.props.postagem.id, timestamp: Date.now(), body: this.state.comment.body, author: this.state.comment.author, parentId: this.props.postagem.parentId }
                     this.props.fetchUpdateComentarioPut(value, this.token, this.props.postagem.parentId);
                 } else if (this.props.son === false) {
@@ -91,7 +91,7 @@ class ModelForm extends Component {
     }
 
     atualizarShow(show) {
-        this.setState({ show: show });
+        this.setState({ show: show })
     }
 
     atualizaBody() {
@@ -119,7 +119,7 @@ class ModelForm extends Component {
             })
     }
 
-    token = localStorage.token;
+    token = localStorage.token
 
     render() {
         return (
@@ -191,7 +191,7 @@ class ModelForm extends Component {
                     </Modal.Footer>
                 </Modal>
             </div>
-        );
+        )
     }
 }
 
@@ -229,4 +229,4 @@ export default connect(
     enableReinitialize: true,
     //   validate,
     //   warn
-})(ModelForm));
+})(ModelForm))

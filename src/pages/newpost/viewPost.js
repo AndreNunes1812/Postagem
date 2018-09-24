@@ -36,11 +36,11 @@ class ViewPost extends Component {
             'Authorization': this.token
         }
 
-        this.handleClick = this.handleClick.bind(this);
+        this.handleClick        = this.handleClick.bind(this);
         this.handleComnentClick = this.handleComnentClick.bind(this);
-        this.handleTrash = this.handleTrash.bind(this);
-        this.handleVoteScore = this.handleVoteScore.bind(this);
-        this.convertDate = this.convertDate.bind(this);
+        this.handleTrash        = this.handleTrash.bind(this);
+        this.handleVoteScore    = this.handleVoteScore.bind(this);
+        this.convertDate        = this.convertDate.bind(this);
     }
 
     componentDidMount() {
@@ -56,7 +56,7 @@ class ViewPost extends Component {
         });
     }
 
-    validarToken() {
+    validateToken() {
         if (!this.token) {
             this.token = localStorage.token = Math.random().toString(36).substr(-8)
         }
@@ -75,7 +75,7 @@ class ViewPost extends Component {
     }
 
     handleTrash(deleteID) {
-        this.validarToken();
+        this.validateToken();
         if (this.props.trashID) {
             //Varificar quando for postagem ou comentario para deletar
             this.props.fetchRemovePostId(deleteID, this.token);
@@ -89,7 +89,7 @@ class ViewPost extends Component {
     }
 
     handleVoteScore(postId, voteScore, vote, pai) {
-        this.validarToken();
+        this.validateToken();
         if (vote === 'filho') {
             this.props.fetchVoteCommentScore(postId, this.token, voteScore, pai);
         } else {
@@ -168,14 +168,14 @@ class ViewPost extends Component {
                                     <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'downVote', this.props.vote, this.props.postagem.parentId)}>
                                         <Glyphicon glyph="glyphicon glyphicon-hand-down" />
                                     </Button>
-                                    {this.props.enabledPencil ? (
+                                    {this.props.ativarEdicao ? (
                                         <Link to={{
                                             pathname: '/post',
                                             state: { post: this.props.postagem }
                                         }}
                                         > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>
                                     ) : (null)}
-                                    {this.props.enabledTrash ? (
+                                    {this.props.ativarLixeira ? (
                                         <Button bsStyle="link" onClick={() => this.handleTrash(this.props.postagem.id)}>
                                             <Glyphicon glyph="glyphicon glyphicon-trash" />
                                         </Button>

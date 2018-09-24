@@ -1,28 +1,27 @@
-import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom'
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import { connect } from 'react-redux';
+import { fetchCategorias } from '../../actions/categorias'
+import { fetchPosts } from '../../actions/createPost'
 
-import { fetchCategorias } from '../../actions/categorias';
-import { fetchPosts } from '../../actions/createPost';
+import NavMenu from '../navmenu/NavMenu'
+import CategoriasList from './CategoriaList'
+import OrdenacaoList from './OrdenacaoList'
+import ViewPost from './viewPost'
 
-import NavMenu from '../navmenu/NavMenu';
-import CategoriasList from './CategoriasList';
-import OrdenacaoLista from './OrdenacaoLista';
-import ViewPost from './viewPost';
-
-import { Panel, Row, Col, Button } from 'react-bootstrap';
+import { Panel, Row, Col, Button } from 'react-bootstrap'
 
 
-class NewPost extends Component {
+class PostagemList extends Component {
 
     constructor(props) {
         super(props)
 
-        this.OnclickNovaPostagem  = this.OnclickNovaPostagem.bind(this)
-        this.validarToken         = this.validarToken.bind(this)
-        this.validarObjeto        = this.validarObjeto.bind(this)
+        this.onClickPostagem = this.onClickPostagem.bind(this)
+        this.validateToken = this.validateToken.bind(this)
+        this.validateObject = this.validateObject.bind(this)
     }
 
     static contextTypes = {
@@ -30,42 +29,42 @@ class NewPost extends Component {
     }
 
     componentDidMount() {
-        this.validarToken();
+        this.validateToken()
         let headers = {
             'Content-Type': 'application/json',
             'Authorization': this.token
         }
-        this.props.fetchPosts(headers);
-        this.props.fetchCategorias(headers);
-        
+        this.props.fetchPosts(headers)
+        this.props.fetchCategorias(headers)
+
     }
 
-    token = localStorage.token;
+    token = localStorage.token
 
-    validarToken() {
+    validateToken() {
         if (!this.token) {
             this.token = localStorage.token = Math.random().toString(36).substr(-8)
         }
     }
 
-    validarObjeto(obj) {
+    validateObject(obj) {
         if (typeof obj !== 'undefined' && obj.length > 0) {
-            return false;
+            return false
         } else {
-            return true;
+            return true
         }
     }
 
-    OnclickNovaPostagem() {
+    onClickPostagem() {
         this.props.history.push({
-            pathname: '/post',
+            pathname: '/post'
         })
     }
 
     render() {
 
         const categorias = this.props.categorias.categories
-        const postagem = this.props.createPost.post;
+        const postagem = this.props.createPost.post
 
         return (
             <div className="container">
@@ -77,7 +76,7 @@ class NewPost extends Component {
                                 <Col sm={10}>
                                     <Panel.Title componentClass="h3">Postagens</Panel.Title>
                                 </Col>
-                                    <Col><Button bsStyle="link" onClick={this.OnclickNovaPostagem}>Nova Postagem</Button></Col>
+                                <Col><Button bsStyle="link" onClick={this.onClickPostagem}>Nova Postagem</Button></Col>
                             </Panel.Heading>
                             <Panel.Body>
                                 <ul>
@@ -86,11 +85,11 @@ class NewPost extends Component {
                                     ) :
                                         (<div>{postagem.map(post =>
                                             (<li key={post.id} style={{ listStyleType: "none" }}>
-                                                <ViewPost postagem={post} 
-                                                    desabilitarBotoes={true} 
-                                                    trashID={true} 
-                                                    enabledPencil={true}
-                                                    enabledTrash={true}/>
+                                                <ViewPost postagem={post}
+                                                    desabilitarBotoes={true}
+                                                    trashID={true}
+                                                    ativarEdicao={true}
+                                                    ativarLixeira={true} />
                                             </li>
                                             ))}</div>
                                         )
@@ -108,30 +107,29 @@ class NewPost extends Component {
                             <CategoriasList categorias={categorias} />
                         </Panel>
                     </Col>
-                    {this.validarObjeto(postagem) ? (null) : (
+                    {this.validateObject(postagem) ? (null) : (
                         <Col sm={2} className="back-ground-css">
                             <Panel bsStyle="success" >
                                 <Panel.Heading>
                                     <Panel.Title componentClass="h3">Ordenação</Panel.Title>
                                 </Panel.Heading>
-                                <OrdenacaoLista postagem={postagem} />
+                                <OrdenacaoList postagem={postagem} />
                             </Panel>
                         </Col>
                     )}
                 </Row>
             </div>
-        );
+        )
     }
 }
 
-
-NewPost.propTypes = {
-    fetchCategorias: PropTypes.func.isRequired,
+PostagemList.propTypes = {
+    fetchCategorias: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
     categorias: state.categorias,
-    createPost: state.createPost,
-});
+    createPost: state.createPost
+})
 
-export default connect(mapStateToProps, { fetchCategorias, fetchPosts })(withRouter(NewPost));
+export default connect(mapStateToProps, { fetchCategorias, fetchPosts })(withRouter(PostagemList))

@@ -1,14 +1,12 @@
 export const INITIAL_FETCH_COMMENT = 'INITIAL_FETCH_COMMENT';
 
-export const SET_COMENTARIOS = 'SET_COMENTARIOS';
-
-export const ADD_COMENTARIO = 'ADD_COMENTARIO';
-export const EDIT_COMENTARIO = 'EDIT_COMENTARIO'; 
-export const REMOVE_COMENTARIO = 'REMOVE_COMENTARIO';
-
-export const SET_VOTE_COMENTARIOS = 'SET_VOTE_COMENTARIOS';
-export const COUNT_COMENTARIO = 'COUNT_COMENTARIO';
-export const SET_PARENT_ID_COMENTARIOS = 'SET_PARENT_ID_COMENTARIOS';
+export const SET_COMMENT           = 'SET_COMMENT';
+export const ADD_COMMENT           = 'ADD_COMMENT';
+export const EDIT_COMMENT          = 'EDIT_COMMENT'; 
+export const REMOVE_COMMENT        = 'REMOVE_COMMENT';
+export const SET_VOTE_COMMENT      = 'SET_VOTE_COMMENT';
+export const COUNT_COMMENT         = 'COUNT_COMMENT';
+export const SET_PARENT_ID_COMMENT = 'SET_PARENT_ID_COMMENT';
 
 // Função para inicializar o comentário
 export function getInicialCommetFetch() {
@@ -52,12 +50,10 @@ export function fetchRemoveCommentId( postID , token ) {
        }
  }
 
-
-
 // Função para atualizar e adcionar o Comentario
 export function addComentario(comment) {
     return {
-        type: ADD_COMENTARIO,
+        type: ADD_COMMENT,
         comment: comment,
     }
 }
@@ -65,7 +61,7 @@ export function addComentario(comment) {
 // Função para atualizar o Comentario
 export function setComment(comment) {
     return {
-        type: SET_COMENTARIOS,
+        type: SET_COMMENT,
         comment:  comment ,
     }
 }
@@ -73,7 +69,7 @@ export function setComment(comment) {
 // Função para atualizar o(s) comentario(s) do ParentID
 export function setParentCommentId(comment) {
    return {
-       type: SET_PARENT_ID_COMENTARIOS,
+       type: SET_PARENT_ID_COMMENT,
        comment: comment.sort(voteCompare),
    }
 }
@@ -179,4 +175,3 @@ export function fetchGetParentCommentId(parentId , token  ) {
 function voteCompare(votea, voteb) {
     return votea.voteScore < voteb.voteScore;
 }
-

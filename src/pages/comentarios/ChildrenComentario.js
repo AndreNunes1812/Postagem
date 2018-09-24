@@ -122,8 +122,8 @@ class ChildrenComentario extends Component {
                                             postagem={post}
                                             desabilitarBotoes={false}
                                             vote={this.vote}
-                                            enabledPencil={this.props.enabledPencil}
-                                            enabledTrash={this.props.enabledTrash}
+                                            ativarEdicao={this.props.ativarEdicao}
+                                            ativarLixeira={this.props.ativarLixeira}
                                         />
 
                                     </li>
