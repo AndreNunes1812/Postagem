@@ -25,7 +25,6 @@ class OrdenacaoList extends Component {
 
     handleClick(category) {
          this.validateToken()
-        console.log('cliquei:',this.props.postagem )
         //Ordenação por data
         if (category==='Data') {
             this.props.fetchOrdenarDataPost(this.props.postagem )

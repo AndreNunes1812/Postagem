@@ -58,27 +58,18 @@ class ModelForm extends Component {
         this.atualizarComentario()
 
         if (this.props.son) {
-
-            setTimeout(() => {
-                if (this.props.son) {
-                    let value = { id: this.props.postagem.id, timestamp: Date.now(), body: this.state.comment.body, author: this.state.comment.author, parentId: this.props.postagem.parentId }
-                    this.props.fetchUpdateComentarioPut(value, this.token, this.props.postagem.parentId)
-                } else if (this.props.son === false) {
-                    this.props.fetchGetParentCommentId(this.state.comment.parentId, this.token)
-                }
-            }, 1000)
+            if (this.props.son) {
+                let value = { id: this.props.postagem.id, timestamp: Date.now(), body: this.state.comment.body, author: this.state.comment.author, parentId: this.props.postagem.parentId }
+                this.props.fetchUpdateComentarioPut(value, this.token, this.props.postagem.parentId)
+            } else if (this.props.son === false) {
+                this.props.fetchGetParentCommentId(this.state.comment.parentId, this.token)
+            }
         } else {
 
-            setTimeout(() => {
-                this.props.fetchAddComentarioPost(this.state.comment, this.token)
-            }, 1000)
-
+            this.props.fetchAddComentarioPost(this.state.comment, this.token)
         }
 
-        setTimeout(() => {
-            this.props.fetchPosts(this.headers)
-        }, 1000)
-
+        this.props.fetchPosts(this.headers)
         this.handleHide()
     }
 

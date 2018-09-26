@@ -63,7 +63,7 @@ class ViewPost extends Component {
     }
 
     handleClick(categoryID) {
-        this.props.history.push(`/post`);
+        this.props.history.push(`/post` );
     }
 
     handleComnentClick(commentID) {
@@ -76,7 +76,7 @@ class ViewPost extends Component {
 
     handleTrash(deleteID) {
         this.validateToken();
-        console.log('trashID', this.props.trashID)
+
         if (this.props.trashID) {
             //Varificar quando for postagem ou comentario para deletar
             this.props.fetchRemovePostId(deleteID, this.token);
@@ -85,9 +85,7 @@ class ViewPost extends Component {
             // Codigo para remover Comentarios
             this.props.fetchRemoveCommentId(deleteID, this.token);
         }
-        setTimeout(() => {
-            this.props.fetchPosts(this.headers);
-        }, 700);
+        this.props.fetchPosts(this.headers);
     }
 
     handleVoteScore(postId, voteScore, vote, pai) {
@@ -173,7 +171,7 @@ class ViewPost extends Component {
                                         </Button>
                                         {this.props.ativarEdicao ? (
                                             <Link to={{
-                                                pathname: '/post',
+                                                pathname: '/post/'+ this.props.postagem.id,
                                                 state: { post: this.props.postagem }
                                             }}
                                             > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>

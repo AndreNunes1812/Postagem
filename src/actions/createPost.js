@@ -82,8 +82,8 @@ export function fetchAddPost(post, token) {
         'Accept': 'application/json',
         'Authorization': token
     }
-    return dispatch => {
-        fetch('http://localhost:3001/posts',
+    return async dispatch => {
+        await fetch('http://localhost:3001/posts',
             {
                 method: 'POST',
                 headers: headers,
@@ -129,8 +129,8 @@ export function fetchPutPostId(categoryID, token) {
         'Accept': 'application/json',
         'Authorization': token
     }
-    return dispatch => {
-        fetch('http://localhost:3001/post/' + categoryID,
+    return async dispatch => {
+        await fetch('http://localhost:3001/post/' + categoryID,
             {
                 method: 'PUT',
                 headers: headers
@@ -163,8 +163,8 @@ export const editPost = (id) => {
 
 // Função que traz todos os post
 export function fetchPosts(headers) {
-    return dispatch => {
-        fetch('http://localhost:3001/posts', { headers })
+    return async dispatch => {
+        await fetch('http://localhost:3001/posts', { headers })
             .then(res => (
                 res.json()
             ))
@@ -181,8 +181,8 @@ export function fetchRemovePostId(postID, token) {
         'Accept': 'application/json',
         'Authorization': token
     }
-    return dispatch => {
-        fetch('http://localhost:3001/posts/' + postID,
+    return async dispatch => {
+        await fetch('http://localhost:3001/posts/' + postID,
             {
                 method: 'DELETE',
                 headers: {
@@ -208,9 +208,9 @@ export function fetchVoteScore(postID, token, vote) {
         'Accept': 'application/json',
         'Authorization': token
     }
-    return dispatch => {
+    return async dispatch => {
 
-        fetch('http://localhost:3001/posts/' + postID,
+        await fetch('http://localhost:3001/posts/' + postID,
             {
                 method: 'POST',
                 headers: {

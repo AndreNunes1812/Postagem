@@ -45,7 +45,7 @@ class CreatePost extends Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = { update: false, post: { id: '1234' + Math.round(Math.random() * 10000000000000), timestamp: Date.now(), title: '', author: '', body: '', category: '', voteScore: 1, deleted: false } }
+        this.state = { update: false, post: { id: '1234' + Math.round(Math.random() * 10000000000000), timestamp: Date.now(), title: ' ', author: '', body: '', category: '', voteScore: 1, deleted: false } }
 
         this.handlerLink = this.handlerLink.bind(this);
         this.handlerClick = this.handlerClick.bind(this);
@@ -63,8 +63,9 @@ class CreatePost extends Component {
             this.token = localStorage.token = Math.random().toString(36).substr(-8)
         }
     }
-
-    componentWillMount() {
+    
+    //componentWillMount() {
+    componentDidMount() {
         if (this.props.location.state !== undefined) {
             this.setState({ post: this.props.location.state.post });
             this.setState({ update: true });
@@ -74,24 +75,20 @@ class CreatePost extends Component {
     handlerLink() {
         this.validarToken();
         this.props.fetchPosts(this.headers);
-
-        setTimeout(() => {
-            this.context.router.history.push('/');
-        }, 1000);
+        this.context.router.history.push('/');
 
     }
 
     async handlerClick() {
         this.validarToken();
 
-        const add = await this.props.fetchAddPost(this.state.post, this.token);
-        const postAll = await this.props.fetchPosts(this.headers);
+        const add = this.props.fetchAddPost(this.state.post, this.token);
+        const postAll = this.props.fetchPosts(this.headers);
         this.handlerLink();
     }
 
     render() {
-        const { onChangeName } = this.props;
-        let categorias = this.props.categorias;
+        const { onChangeName , categorias} = this.props;
         return (
 
             <div className="container">
@@ -114,10 +111,8 @@ class CreatePost extends Component {
                                             className="form-control"
                                             placeholder="Titulo"
                                             value={this.state.post.title}
-                                            onChange={(e) => this.setState(
-                                                {
-                                                    post:
-                                                        { ...this.state.post, title: e.target.value }
+                                            onChange={(e) => this.setState( prevState => {
+                                                return { post: { ...prevState.post, title: e.target.value }}
                                                 }
                                             )
                                             }
@@ -244,6 +239,7 @@ class CreatePost extends Component {
 
 CreatePost.propTypes = {
     fetchPost: PropTypes.func.isRequired,
+    title: PropTypes.string
 }
 
 const mapStateToProps = (state) => {

@@ -9,15 +9,8 @@ import OrdenacaoList from '../newpost/OrdenacaoList'
 
 import {
     fetchCategoryPost,
-    fetchOrdenarDataPost,
-    fetchOrdenarScorePost
+    fetchOrdenarDataPost
 } from '../../actions/createPost'
-
-var divStyle = {
-    background: "#eee",
-    padding: "10px",
-    margin: "15px"
-}
 
 class CategoriasList extends Component {
 

@@ -35,8 +35,8 @@ export function fetchRemoveCommentId( postID , token ) {
          'Accept': 'application/json',
          'Authorization': token
      }
-     return dispatch => {
-             fetch( 'http://localhost:3001/comments/'+ postID, 
+     return async dispatch => {
+            await fetch( 'http://localhost:3001/comments/'+ postID, 
                  { method: 'DELETE', 
                    headers:  headers 
                  })
@@ -82,8 +82,8 @@ export function fetchVoteCommentScore(postID, token, vote , pai) {
         'Accept': 'application/json',
         'Authorization': token
     }
-    return dispatch => {
-        fetch('http://localhost:3001/comments/' + postID,
+    return async dispatch => {
+        await fetch('http://localhost:3001/comments/' + postID,
             {
                 method: 'POST',
                 headers: headers,
@@ -108,8 +108,8 @@ export function fetchUpdateComentarioPut(commentario , token , id ) {
         'Authorization': token
     }
 
-    return dispatch => {
-            fetch( 'http://localhost:3001/comments/' + commentario.id , 
+    return async dispatch => {
+           await fetch( 'http://localhost:3001/comments/' + commentario.id , 
                 { method: 'PUT', 
                   headers,                  
                   body: JSON.stringify( commentario )
@@ -134,8 +134,8 @@ export function fetchAddComentarioPost(commentario , token ) {
         'Authorization': token
     }
 
-    return dispatch => {
-            fetch( 'http://localhost:3001/comments', 
+    return async dispatch => {
+           await fetch( 'http://localhost:3001/comments', 
                 { method: 'POST', 
                   headers, 
                   body: JSON.stringify( commentario )  })
@@ -152,8 +152,8 @@ export function fetchAddComentarioPost(commentario , token ) {
 // Função que traz o(s) comentarios do parent
 export function fetchGetParentCommentId(parentId , token  ) {
 
-    return dispatch => {
-            fetch( 'http://localhost:3001/posts/'+ parentId + '/comments', 
+    return async dispatch => {
+           await fetch( 'http://localhost:3001/posts/'+ parentId + '/comments', 
                 { method: 'GET', 
                   headers:  {'Content-Type': 'application/json',
                               'Accept': 'application/json',

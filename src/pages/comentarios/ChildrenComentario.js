@@ -63,9 +63,7 @@ class ChildrenComentario extends Component {
     }
 
     atualizarParentId() {
-        setTimeout(() => {
-            this.parentId = localStorage.parentId;
-        }, 1000);
+        this.parentId = localStorage.parentId
     }
 
     validarToken() {
@@ -83,11 +81,8 @@ class ChildrenComentario extends Component {
     vote = "filho";
 
     handlerLink() {
-
         this.validarToken();
-        setTimeout(() => {
-            this.context.router.history.push('/');
-        }, 1000);
+        this.context.router.history.push('/');
     }
 
     render() {

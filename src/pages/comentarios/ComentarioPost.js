@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost';
-import { fetchGetParentCommentId , fetchVoteCommentScore } from '../../actions/comentarioPost';
+import { fetchGetParentCommentId, fetchVoteCommentScore } from '../../actions/comentarioPost';
 import ViewPost from '../newpost/viewPost';
 import ModelForm from '../model/ModelForm';
 import ChildrenComentario from '../comentarios/ChildrenComentario';
@@ -59,9 +59,9 @@ class ComentarioPost extends Component {
     toggleModal = () => {
         this.setState((prevState) => {
             return {
-               show: !prevState.show
+                show: !prevState.show
             }
-         })
+        })
     }
 
     atualizarComent(updatestate) {
@@ -71,9 +71,7 @@ class ComentarioPost extends Component {
     }
 
     atualizarParentId() {
-        setTimeout(() => {
-            this.props.fetchGetParentCommentId(this.parentId, this.token);
-        }, 2000);
+        this.props.fetchGetParentCommentId(this.parentId, this.token)
     }
 
     validarToken() {
@@ -83,7 +81,7 @@ class ComentarioPost extends Component {
     }
 
     handleClick() {
-        this.setState({ show: true });
+        this.setState({ show: true })
     }
 
     token = localStorage.token;
@@ -91,9 +89,9 @@ class ComentarioPost extends Component {
 
     handlerLink() {
         this.validarToken();
-        this.props.fetchPosts(this.headers);
+        this.props.fetchPosts(this.headers)
         setTimeout(() => {
-            this.context.router.history.push('/');
+            this.context.router.history.push('/')
         }, 1000);
     }
 
@@ -116,9 +114,9 @@ class ComentarioPost extends Component {
                             </Panel.Title>
                         </Panel.Heading>
                         <Panel.Body>
-                            <ViewPost 
-                                postagem={postagem} 
-                                comentarios={true} 
+                            <ViewPost
+                                postagem={postagem}
+                                comentarios={true}
                                 trashID={true}
                                 desabilitarBotoes={true}
                                 ativarEdicao={true}
@@ -140,12 +138,12 @@ class ComentarioPost extends Component {
                     }
 
                 </div>
-                <ChildrenComentario 
-                    children={this.parentId} 
+                <ChildrenComentario
+                    children={this.parentId}
                     desabilitarBotoes={false}
-                    ativarEdicao={true}
-                    ativarLixeira={true} 
-                    />
+                    ativarEdicao={false}
+                    ativarLixeira={true}
+                />
             </div>
         );
     }
@@ -175,7 +173,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchPosts: (headers) => fetchPosts(headers),
         fetchRemovePostId: (post, token) => fetchRemovePostId(post, token),
         fetchVoteScore: (post, token, voteScore) => fetchVoteScore(post, token, voteScore),
-        fetchVoteCommentScore: (post, token, voteScore) => fetchVoteCommentScore (post, token, voteScore),
+        fetchVoteCommentScore: (post, token, voteScore) => fetchVoteCommentScore(post, token, voteScore),
         fetchGetParentCommentId: (parentId, token) => fetchGetParentCommentId(parentId, token),
     }, dispatch))
 }

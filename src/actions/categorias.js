@@ -9,8 +9,8 @@ export function setCategorias(categorias) {
 
 export function fetchCategorias(headers) {
 
-    return dispatch  => {
-        fetch( 'http://localhost:3001/categories' , { headers })
+    return async dispatch  => {
+        await fetch( 'http://localhost:3001/categories' , { headers })
         .then(res => res.json())
         .then(data => dispatch(setCategorias(data)));
     }

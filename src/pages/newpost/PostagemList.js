@@ -7,7 +7,6 @@ import { fetchCategorias  } from '../../actions/categorias'
 import { fetchPosts , fetchCategoryPost} from '../../actions/createPost'
 
 import NavMenu from '../navmenu/NavMenu'
-// import CategoriasList from './CategoriaList'
 import OrdenacaoList from './OrdenacaoList'
 import ViewPost from './viewPost'
 
@@ -62,13 +61,6 @@ class PostagemList extends Component {
     }
 
     handleClick(category) {
-        // this.validateToken();
-        // this.props.fetchCategoryPost(category, this.token);
-
-        console.log('postagem:' , this.props.createPost.post)
-        console.log('token:' , this.token)
-        
-
         this.props.history.push({
             pathname: '/categoria/' + category,
             state: { postagem: this.props.createPost.post, category: category }
