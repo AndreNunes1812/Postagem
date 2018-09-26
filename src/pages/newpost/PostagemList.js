@@ -3,11 +3,11 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { fetchCategorias } from '../../actions/categorias'
-import { fetchPosts } from '../../actions/createPost'
+import { fetchCategorias  } from '../../actions/categorias'
+import { fetchPosts , fetchCategoryPost} from '../../actions/createPost'
 
 import NavMenu from '../navmenu/NavMenu'
-import CategoriasList from './CategoriaList'
+// import CategoriasList from './CategoriaList'
 import OrdenacaoList from './OrdenacaoList'
 import ViewPost from './viewPost'
 
@@ -61,10 +61,24 @@ class PostagemList extends Component {
         })
     }
 
+    handleClick(category) {
+        // this.validateToken();
+        // this.props.fetchCategoryPost(category, this.token);
+
+        console.log('postagem:' , this.props.createPost.post)
+        console.log('token:' , this.token)
+        
+
+        this.props.history.push({
+            pathname: '/categoria/' + category,
+            state: { postagem: this.props.createPost.post, category: category }
+        })
+    }
+
     render() {
 
         const categorias = this.props.categorias.categories
-        const postagem = this.props.createPost.post
+        const postagem   = this.props.createPost.post
 
         return (
             <div className="container">
@@ -89,6 +103,7 @@ class PostagemList extends Component {
                                                     desabilitarBotoes={true}
                                                     trashID={true}
                                                     ativarEdicao={true}
+                                                    ativarVamosComentar={true}
                                                     ativarLixeira={true} />
                                             </li>
                                             ))}</div>
@@ -99,12 +114,24 @@ class PostagemList extends Component {
                             </Panel.Body>
                         </Panel>
                     </Col>
+
                     <Col sm={2} className="back-ground-css">
                         <Panel bsStyle="success">
                             <Panel.Heading>
                                 <Panel.Title componentClass="h3">Categorias</Panel.Title>
                             </Panel.Heading>
-                            <CategoriasList categorias={categorias} />
+                            <ul>
+                                {categorias === undefined ? (null) :
+                                    (<div>{categorias.map(categoria =>
+                                        (<li key={categoria.path} style={{ listStyleType: "none" }}>
+                                            <Button onClick={(e) => this.handleClick(categoria.name)} bsStyle="link">{categoria.name}</Button>
+                                        </li>
+                                        ))}</div>
+                                    )
+
+                                }
+
+                            </ul>
                         </Panel>
                     </Col>
                     {this.validateObject(postagem) ? (null) : (
@@ -124,7 +151,8 @@ class PostagemList extends Component {
 }
 
 PostagemList.propTypes = {
-    fetchCategorias: PropTypes.func.isRequired
+    fetchCategorias: PropTypes.func.isRequired,
+    fetchCategoryPost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -132,4 +160,4 @@ const mapStateToProps = state => ({
     createPost: state.createPost
 })
 
-export default connect(mapStateToProps, { fetchCategorias, fetchPosts })(withRouter(PostagemList))
+export default connect(mapStateToProps, { fetchCategorias, fetchPosts, fetchCategoryPost })(withRouter(PostagemList))

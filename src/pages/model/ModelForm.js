@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from "redux";
-import { connect } from 'react-redux';
-import { fetchAddComentarioPost, fetchUpdateComentarioPut } from '../../actions/comentarioPost';
-import { fetchGetParentCommentId } from '../../actions/comentarioPost';
-import { fetchPosts } from '../../actions/createPost';
-import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
-import './modal-container.css';
+import React, { Component } from 'react'
+import { bindActionCreators } from "redux"
+import { connect } from 'react-redux'
+import { fetchAddComentarioPost, fetchUpdateComentarioPut } from '../../actions/comentarioPost'
+import { fetchGetParentCommentId } from '../../actions/comentarioPost'
+import { fetchPosts } from '../../actions/createPost'
+import PropTypes from 'prop-types'
+import { reduxForm } from 'redux-form'
+import './modal-container.css'
 import {
     Row,
     Col,
@@ -15,7 +15,7 @@ import {
     ControlLabel,
     Button,
     Modal
-} from 'react-bootstrap';
+} from 'react-bootstrap'
 
 class ModelForm extends Component {
 
@@ -27,25 +27,25 @@ class ModelForm extends Component {
             comment: { id: '', timestamp: '', body: '', author: '', parentId: "" },
             comentarioCount: 0,
             parentId: ''
-        };
+        }
 
         this.headers = {
             'Content-Type': 'application/json',
             'Authorization': this.token
         }
 
-        this.handleHide = this.handleHide.bind(this);
-        this.handlerClickAdd = this.handlerClickAdd.bind(this);
-        this.atualizarShow = this.atualizarShow.bind(this);
-        this.atualizaBody = this.atualizaBody.bind(this);
-        this.atualizarComentario = this.atualizarComentario.bind(this);
+        this.handleHide = this.handleHide.bind(this)
+        this.handlerClickAdd = this.handlerClickAdd.bind(this)
+        this.atualizarShow = this.atualizarShow.bind(this)
+        this.atualizaBody = this.atualizaBody.bind(this)
+        this.atualizarComentario = this.atualizarComentario.bind(this)
     }
 
     componentDidMount() {
         this.atualizarShow(this.props.show)
-        this.atualizarComentario();
+        this.atualizarComentario()
         if (this.props.son) {
-            this.atualizaBody();
+            this.atualizaBody()
         }
     }
 
@@ -54,35 +54,35 @@ class ModelForm extends Component {
     }
 
     handlerClickAdd() {
-        this.validarToken();
-        this.atualizarComentario();
+        this.validarToken()
+        this.atualizarComentario()
 
         if (this.props.son) {
 
             setTimeout(() => {
                 if (this.props.son) {
                     let value = { id: this.props.postagem.id, timestamp: Date.now(), body: this.state.comment.body, author: this.state.comment.author, parentId: this.props.postagem.parentId }
-                    this.props.fetchUpdateComentarioPut(value, this.token, this.props.postagem.parentId);
+                    this.props.fetchUpdateComentarioPut(value, this.token, this.props.postagem.parentId)
                 } else if (this.props.son === false) {
-                    this.props.fetchGetParentCommentId(this.state.comment.parentId, this.token);
+                    this.props.fetchGetParentCommentId(this.state.comment.parentId, this.token)
                 }
-            }, 1000);
+            }, 1000)
         } else {
 
             setTimeout(() => {
-                this.props.fetchAddComentarioPost(this.state.comment, this.token);
-            }, 1000);
+                this.props.fetchAddComentarioPost(this.state.comment, this.token)
+            }, 1000)
 
         }
 
         setTimeout(() => {
-            this.props.fetchPosts(this.headers);
-        }, 1000);
+            this.props.fetchPosts(this.headers)
+        }, 1000)
 
-        this.handleHide();
+        this.handleHide()
     }
 
-    token = localStorage.token;
+    token = localStorage.token
 
     validarToken() {
         if (!this.token) {

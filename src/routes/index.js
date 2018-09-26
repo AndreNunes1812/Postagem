@@ -14,8 +14,8 @@ const Routes = () => (
             <Route path="/post" component={CreatePost} />
             <Route path="/post/:id" component={CreatePost} />
             
-            <Route path="/comentario" component={ComentarioPost} />
-            <Route path="/comentario/:id" component={ComentarioPost} />
+            <Route path="/category" component={ComentarioPost} />
+            <Route path="/category/:id" component={ComentarioPost} />
 
             <Route path="/categoria" component={CategoriaList} />
             <Route path="/categoria/:id" component={CategoriaList} />

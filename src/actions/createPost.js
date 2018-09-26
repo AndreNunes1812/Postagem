@@ -61,7 +61,7 @@ export function setOrdenacaoData(post) {
 // Função para ordenar por data
 export function fetchOrdenarDataPost(posts) {
     return dispatch => {
-        let postagemData=  posts.sort(voteCreateDate);
+        let postagemData = posts.sort(voteCreateDate);
         dispatch(setOrdenacaoData(postagemData))
     }
 }
@@ -69,7 +69,7 @@ export function fetchOrdenarDataPost(posts) {
 // Função para ordenar Score
 export function fetchOrdenarScorePost(posts) {
     return dispatch => {
-        let postagemData=  posts.sort(voteCompare);
+        let postagemData = posts.sort(voteCompare);
         dispatch(setOrdenacaoData(postagemData))
     }
 }
@@ -220,7 +220,7 @@ export function fetchVoteScore(postID, token, vote) {
                 },
                 body: JSON.stringify({ 'option': vote })
             })
-            .then(res => (               
+            .then(res => (
                 res
             ))
             .then(data => (
@@ -236,6 +236,6 @@ function voteCompare(votea, voteb) {
 }
 
 // Função para ordenação da data de criação
-function voteCreateDate(voteDateA, voteDateB) {  
-   return voteDateA.timestamp < voteDateB.timestamp;
+function voteCreateDate(voteDateA, voteDateB) {
+    return voteDateA.timestamp < voteDateB.timestamp;
 }

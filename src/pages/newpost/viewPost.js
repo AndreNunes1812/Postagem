@@ -36,11 +36,11 @@ class ViewPost extends Component {
             'Authorization': this.token
         }
 
-        this.handleClick        = this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
         this.handleComnentClick = this.handleComnentClick.bind(this);
-        this.handleTrash        = this.handleTrash.bind(this);
-        this.handleVoteScore    = this.handleVoteScore.bind(this);
-        this.convertDate        = this.convertDate.bind(this);
+        this.handleTrash = this.handleTrash.bind(this);
+        this.handleVoteScore = this.handleVoteScore.bind(this);
+        this.convertDate = this.convertDate.bind(this);
     }
 
     componentDidMount() {
@@ -68,7 +68,7 @@ class ViewPost extends Component {
 
     handleComnentClick(commentID) {
         this.props.history.push({
-            pathname: '/comentario',
+            pathname: '/category/' + commentID,
             postagem: this.props.postagem,
             state: { commentId: commentID }
         })
@@ -76,9 +76,11 @@ class ViewPost extends Component {
 
     handleTrash(deleteID) {
         this.validateToken();
+        console.log('trashID', this.props.trashID)
         if (this.props.trashID) {
             //Varificar quando for postagem ou comentario para deletar
             this.props.fetchRemovePostId(deleteID, this.token);
+            this.props.history.push(`/`);
         } else {
             // Codigo para remover Comentarios
             this.props.fetchRemoveCommentId(deleteID, this.token);
@@ -155,59 +157,72 @@ class ViewPost extends Component {
                                         />
                                     </FormGroup>
                                 </Col>) : (null)}
-
+                         
                         </Row>
                     </Panel.Body>
-                    <Panel.Footer>
-                        <Row>
-                            <Col xs={8} md={8}>
-                                <FormGroup controlId="formControlsTitulo">
-                                    <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'upVote', this.props.vote, this.props.postagem.parentId)}>
-                                        <Glyphicon glyph="glyphicon glyphicon-hand-up" />
-                                    </Button>
-                                    <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'downVote', this.props.vote, this.props.postagem.parentId)}>
-                                        <Glyphicon glyph="glyphicon glyphicon-hand-down" />
-                                    </Button>
-                                    {this.props.ativarEdicao ? (
-                                        <Link to={{
-                                            pathname: '/post',
-                                            state: { post: this.props.postagem }
-                                        }}
-                                        > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>
-                                    ) : (null)}
-                                    {this.props.ativarLixeira ? (
-                                        <Button bsStyle="link" onClick={() => this.handleTrash(this.props.postagem.id)}>
-                                            <Glyphicon glyph="glyphicon glyphicon-trash" />
+                    {this.props.desativarFooter ? (null) : (
+                        <Panel.Footer>
+                            <Row>
+                                <Col xs={6} md={6}>
+                                    <FormGroup controlId="formControlsTitulo">
+                                        <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'upVote', this.props.vote, this.props.postagem.parentId)}>
+                                            <Glyphicon glyph="glyphicon glyphicon-hand-up" />
                                         </Button>
-                                    ) : (null)}
-                                </FormGroup>
-
-                            </Col>
-                            {this.props.desabilitarBotoes ? (
-                                <Fragment>
-                                    <Col xs={2} md={2}>
-                                        <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
-                                            <Button
-                                                bsStyle="link"
-                                                onClick={() => this.handleComnentClick(this.props.postagem.id)}
-                                            > Comentários: {this.props.postagem.commentCount}
+                                        <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'downVote', this.props.vote, this.props.postagem.parentId)}>
+                                            <Glyphicon glyph="glyphicon glyphicon-hand-down" />
+                                        </Button>
+                                        {this.props.ativarEdicao ? (
+                                            <Link to={{
+                                                pathname: '/post',
+                                                state: { post: this.props.postagem }
+                                            }}
+                                            > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>
+                                        ) : (null)}
+                                        {this.props.ativarLixeira ? (
+                                            <Button bsStyle="link" onClick={() => this.handleTrash(this.props.postagem.id)}>
+                                                <Glyphicon glyph="glyphicon glyphicon-trash" />
                                             </Button>
-                                        </FormGroup>
-                                    </Col>
-                                </Fragment>) : (
-                                    <Fragment  >
-                                        <Col xs={2} md={2} style={{ marginTop: 8 }}>
-                                            <Button bsStyle="primary" type="button" onClick={this.toggleModal}>Editar Comentário</Button>
-                                        </Col>
-                                    </Fragment>
-                                )}
-                            <Col xs={2} md={2}>
-                                <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
-                                    <Button bsStyle="link">Score:{this.props.postagem.voteScore}</Button>
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                    </Panel.Footer>
+                                        ) : (null)}
+                                    </FormGroup>
+                                        {this.props.ativarVamosComentar ? (
+                                            <Col xs={2} md={2}>
+                                                <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
+                                                    <Button bsStyle="success" onClick={() => this.handleComnentClick(this.props.postagem.id)}>Vamos comentar?</Button>
+                                                </FormGroup>
+                                            </Col>
+
+                                        ) : (null)}
+                                </Col>
+
+                                {this.props.desabilitarBotoes ? (
+                                    <Fragment>
+                                        <Fragment>
+                                            <Col xs={2} md={2}>
+                                                <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
+                                                    <Button
+                                                        bsStyle="link"
+                                                    > Comentários: {this.props.postagem.commentCount}
+                                                    </Button>
+                                                </FormGroup>
+                                            </Col>
+                                        </Fragment>
+                                    </Fragment>) : (
+                                        <Fragment  >
+                                            <Col xs={2} md={2} style={{ marginTop: 8 }}>
+                                                <Button bsStyle="success" type="button" onClick={this.toggleModal}>Editar Comentário</Button>
+                                            </Col>
+                                        </Fragment>
+                                    )}
+                                <Col xs={2} md={2}>
+                                    <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
+                                        <Button bsStyle="link">Score:{this.props.postagem.voteScore}</Button>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                        </Panel.Footer>
+
+                    )}
+
                 </Panel>
                 {this.state.show ? (
                     <ModelForm

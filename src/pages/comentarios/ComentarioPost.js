@@ -119,12 +119,13 @@ class ComentarioPost extends Component {
                             <ViewPost 
                                 postagem={postagem} 
                                 comentarios={true} 
+                                trashID={true}
                                 desabilitarBotoes={true}
-                                ativarEdicao={false}
-                                ativarLixeira={false} />
+                                ativarEdicao={true}
+                                ativarLixeira={true} />
                         </Panel.Body>
                         <Panel.Footer>
-                            <Button bsStyle="primary" type="button" onClick={this.toggleModal}>Adcionar Comentário</Button>
+                            <Button bsStyle="success" type="button" onClick={this.toggleModal}>Adcionar Comentário</Button>
                             <Button bsStyle="link" onClick={this.handlerLink}>Voltar</Button>
                         </Panel.Footer>
                     </Panel>

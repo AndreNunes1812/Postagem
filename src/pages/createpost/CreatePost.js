@@ -128,7 +128,7 @@ class CreatePost extends Component {
                                     <FormGroup controlId="formControlsAuthor">
                                         <ControlLabel>Autor</ControlLabel>
                                         <FormControl
-                                            readOnly={this.state.update}
+                                            
                                             name="post.author"
                                             type="text"
                                             component={renderField}
