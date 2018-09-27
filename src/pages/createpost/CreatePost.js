@@ -63,7 +63,7 @@ class CreatePost extends Component {
             this.token = localStorage.token = Math.random().toString(36).substr(-8)
         }
     }
-    
+
     //componentWillMount() {
     componentDidMount() {
         if (this.props.location.state !== undefined) {
@@ -88,7 +88,7 @@ class CreatePost extends Component {
     }
 
     render() {
-        const { onChangeName , categorias} = this.props;
+        const { onChangeName, categorias } = this.props;
         return (
 
             <div className="container">
@@ -111,11 +111,12 @@ class CreatePost extends Component {
                                             className="form-control"
                                             placeholder="Titulo"
                                             value={this.state.post.title}
-                                            onChange={(e) => this.setState( prevState => {
-                                                return { post: { ...prevState.post, title: e.target.value }}
-                                                }
-                                            )
-                                            }
+                                            onChange={(e) => {
+                                                let value = e.target.value
+                                                this.setState(prevState => {
+                                                    return { post: { ...prevState.post, title: value } } 
+                                                });
+                                            }}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -123,21 +124,19 @@ class CreatePost extends Component {
                                     <FormGroup controlId="formControlsAuthor">
                                         <ControlLabel>Autor</ControlLabel>
                                         <FormControl
-                                            
                                             name="post.author"
                                             type="text"
                                             component={renderField}
                                             onChange={onChangeName}
                                             className="form-control"
-                                            placeholder="Author"
-                                            value={this.state.post.author}
-                                            onChange={(e) => this.setState(
-                                                {
-                                                    post:
-                                                        { ...this.state.post, author: e.target.value }
-                                                }
-                                            )
-                                            }
+                                            placeholder="Author"  
+                                            value={this.state.post.author}                                        
+                                            onChange={(e) => {
+                                                let value = e.target.value
+                                                this.setState(prevState => {
+                                                    return { post: { ...prevState.post, author: value } } 
+                                                });
+                                            }}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -152,14 +151,13 @@ class CreatePost extends Component {
                                             onChange={onChangeName}
                                             className="form-control"
                                             placeholder="Comentário"
-                                            value={this.state.post.body}
-                                            onChange={(e) => this.setState(
-                                                {
-                                                    post:
-                                                        { ...this.state.post, body: e.target.value }
-                                                }
-                                            )
-                                            }
+                                            value={this.state.post.body}                                        
+                                            onChange={(e) => {
+                                                let value = e.target.value
+                                                this.setState(prevState => {
+                                                    return { post: { ...prevState.post, body: value } } 
+                                                });
+                                            }}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -172,14 +170,13 @@ class CreatePost extends Component {
                                                 type="select"
                                                 component="select"
                                                 className="form-control"
-                                                value={this.state.post.category}
-                                                onChange={(e) => this.setState(
-                                                    {
-                                                        post:
-                                                            { ...this.state.post, category: e.target.value }
-                                                    }
-                                                )
-                                                }
+                                                value={this.state.post.category}                                                  
+                                                onChange={(e) => {
+                                                    let value = e.target.value
+                                                    this.setState(prevState => {
+                                                        return { post: { ...prevState.post, category: value } } 
+                                                    });
+                                                }}
                                                 placeholder="selecione" >
                                                 <option value="">Selecione</option>
                                                 {categorias === undefined ? (null) : (
@@ -239,7 +236,6 @@ class CreatePost extends Component {
 
 CreatePost.propTypes = {
     fetchPost: PropTypes.func.isRequired,
-    title: PropTypes.string
 }
 
 const mapStateToProps = (state) => {
