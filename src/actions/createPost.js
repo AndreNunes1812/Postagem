@@ -93,7 +93,7 @@ export function fetchAddPost(post, token) {
                 res.json()
             ))
             .then(data => (
-                null
+                dispatch(fetchPosts(headers))  
             )
             );
     }
@@ -122,24 +122,29 @@ export function fetchCategoryPost(category, token) {
     }
 }
 
-// Função que atualiza o post pelo ID
-export function fetchPutPostId(categoryID, token) {
+// Função que atualiza o post pelo ID (Title / Body Update)
+export function fetchPutPostId(post, token , id) {
+
+    console.log('Put:', post, token, id)
+
     const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': token
     }
     return async dispatch => {
-        await fetch('http://localhost:3001/post/' + categoryID,
+        await fetch('http://localhost:3001/posts/' + id,
             {
                 method: 'PUT',
-                headers: headers
+                headers: headers,
+                body: JSON.stringify( post )
             })
             .then(res => (
-                res.json()
+                res
             ))
             .then(data => (
-                dispatch(setPosts(data))
+                console.log('Data:', data),
+                dispatch(fetchPosts(headers))
             )
             );
     }
@@ -154,10 +159,10 @@ export const removePost = (id) => {
 }
 
 // Função que edita o post ID
-export const editPost = (id) => {
+export const editPost = (post) => {
     return {
         type: EDIT_POST,
-        payload: id
+        post: post
     }
 }
 

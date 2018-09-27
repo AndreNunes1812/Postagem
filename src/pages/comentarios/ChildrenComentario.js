@@ -27,7 +27,7 @@ class ChildrenComentario extends Component {
             show: false,
             post: [{ id: "", timestamp: "", title: "", body: "", author: "", voteScore: 0, commentCount: 0 }],
             commentId: '',
-            parentId: this.props.location.postagem.id,
+            parentId: ''//this.props.location.postagem.id,
         }
 
         this.self = this;
@@ -44,7 +44,6 @@ class ChildrenComentario extends Component {
     }
 
     componentDidMount() {
-        this.setState({ id: this.props.location.state.commentId });
         this.validarToken();
         this.atualizarParentId();
         this.comentarios = this.props.comentarios;
@@ -116,6 +115,7 @@ class ChildrenComentario extends Component {
                                         <ViewPost
                                             postagem={post}
                                             desabilitarBotoes={false}
+                                            comentario={false}
                                             vote={this.vote}
                                             trashID={false}
                                             ativarEdicao={this.props.ativarEdicao}

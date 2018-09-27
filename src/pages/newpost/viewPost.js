@@ -67,6 +67,8 @@ class ViewPost extends Component {
     }
 
     handleComnentClick(commentID) {
+        localStorage.parentId = commentID
+        console.log('asasa', localStorage.parentId)
         this.props.history.push({
             pathname: '/category/' + commentID,
             postagem: this.props.postagem,
@@ -172,7 +174,7 @@ class ViewPost extends Component {
                                         {this.props.ativarEdicao ? (
                                             <Link to={{
                                                 pathname: '/post/'+ this.props.postagem.id,
-                                                state: { post: this.props.postagem }
+                                                state: { post: this.props.postagem, comentario: this.props.comentario }
                                             }}
                                             > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>
                                         ) : (null)}

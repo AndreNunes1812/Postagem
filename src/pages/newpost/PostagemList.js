@@ -55,16 +55,18 @@ class PostagemList extends Component {
     }
 
     onClickPostagem() {
+        localStorage.postagemList= true;
         this.props.history.push({
             pathname: '/post'
         })
     }
 
-    handleClick(category) {
+    handleClick(category) {        
         this.props.history.push({
             pathname: '/categoria/' + category,
             state: { postagem: this.props.createPost.post, category: category }
         })
+        
     }
 
     render() {
@@ -93,6 +95,7 @@ class PostagemList extends Component {
                                             (<li key={post.id} style={{ listStyleType: "none" }}>
                                                 <ViewPost postagem={post}
                                                     desabilitarBotoes={true}
+                                                    comentario={false}
                                                     trashID={true}
                                                     ativarEdicao={true}
                                                     ativarVamosComentar={true}

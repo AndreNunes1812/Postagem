@@ -31,7 +31,7 @@ class ComentarioPost extends Component {
             show: false,
             post: { id: "", timestamp: "", title: "", body: "", author: "", voteScore: 0, commentCount: 0 },
             commentId: '',
-            parentId: this.props.location.postagem.id
+            parentId: ''//this.props.location.postagem.id
         }
         this.self = this;
         this.id = '';
@@ -48,8 +48,9 @@ class ComentarioPost extends Component {
     }
 
     componentDidMount() {
-        this.setState({ id: this.props.location.state.commentId });
-        this.parentId = localStorage.parentId = this.props.location.postagem.id;
+     //  this.setState({ id: this.props.location.state.commentId });
+      // this.parentId = localStorage.parentId = this.props.location.postagem.id;
+      localStorage.postagemList = false;
     }
 
     componentWillMount() {
@@ -90,14 +91,16 @@ class ComentarioPost extends Component {
     handlerLink() {
         this.validarToken();
         this.props.fetchPosts(this.headers)
-        setTimeout(() => {
-            this.context.router.history.push('/')
-        }, 1000);
+        this.context.router.history.push('/')
+
     }
 
     render() {
+        console.log('post:' , this.props.createPost.post)
+        console.log('LocalStorage:' , localStorage.parentId)
+        
 
-        let postagem = this.props.createPost.post.filter(post => post.id === this.props.location.state.commentId)[0]
+        let postagem = this.props.createPost.post.filter(post => post.id === localStorage.parentId)[0]
 
         return (
             <div>
@@ -116,7 +119,7 @@ class ComentarioPost extends Component {
                         <Panel.Body>
                             <ViewPost
                                 postagem={postagem}
-                                comentarios={true}
+                                comentario={true}
                                 trashID={true}
                                 desabilitarBotoes={true}
                                 ativarEdicao={true}
@@ -139,8 +142,9 @@ class ComentarioPost extends Component {
 
                 </div>
                 <ChildrenComentario
-                    children={this.parentId}
+                    children={localStorage.parentId}
                     desabilitarBotoes={false}
+                    comentario={false}
                     ativarEdicao={false}
                     ativarLixeira={true}
                 />

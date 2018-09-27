@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
-import { fetchAddPost, fetchPosts } from './../../actions/createPost';
+import { fetchAddPost, fetchPosts, fetchPutPostId } from './../../actions/createPost';
 import NavMenu from '../navmenu/NavMenu';
 import {
     FormGroup,
@@ -45,7 +45,7 @@ class CreatePost extends Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = { update: false, post: { id: '1234' + Math.round(Math.random() * 10000000000000), timestamp: Date.now(), title: ' ', author: '', body: '', category: '', voteScore: 1, deleted: false } }
+        this.state = { update: false, post: { id: '1234' + Math.round(Math.random() * 10000000000000), timestamp: Date.now(), title: ' ', author: '', body: '', category: '', voteScore: 1, commentCount: 0, deleted: false } }
 
         this.handlerLink = this.handlerLink.bind(this);
         this.handlerClick = this.handlerClick.bind(this);
@@ -64,7 +64,6 @@ class CreatePost extends Component {
         }
     }
 
-    //componentWillMount() {
     componentDidMount() {
         if (this.props.location.state !== undefined) {
             this.setState({ post: this.props.location.state.post });
@@ -74,21 +73,34 @@ class CreatePost extends Component {
 
     handlerLink() {
         this.validarToken();
-        this.props.fetchPosts(this.headers);
-        this.context.router.history.push('/');
-
+        this.props.fetchPosts(this.headers)
+        console.log('ccccccc' , localStorage.postagemList) 
+        if (localStorage.postagemList) {
+            this.context.router.history.push('/')
+        } else {
+            console.log('ffffff' , localStorage.postagemList) 
+            this.context.router.history.push('/category/'+localStorage.parentId)
+            
+        }
     }
 
-    async handlerClick() {
-        this.validarToken();
-
-        const add = this.props.fetchAddPost(this.state.post, this.token);
-        const postAll = this.props.fetchPosts(this.headers);
+    handlerClick() {
+        this.validarToken();   
+        console.log('sdadsadasdas' , localStorage.postagemList)    
+        if (localStorage.postagemList) {
+            this.props.fetchAddPost(this.state.post, this.token)
+        } else  {
+            let value = {title: this.state.post.title, body: this.state.post.body}
+            this.props.fetchPutPostId(value , this.token ,  this.state.post.id )
+        }
+                
         this.handlerLink();
     }
 
     render() {
         const { onChangeName, categorias } = this.props;
+        console.log('this.props:', this.props)
+        
         return (
 
             <div className="container">
@@ -125,7 +137,7 @@ class CreatePost extends Component {
                                         <ControlLabel>Autor</ControlLabel>
                                         <FormControl
                                             name="post.author"
-                                            type="text"
+                                            type="text"                                           
                                             component={renderField}
                                             onChange={onChangeName}
                                             className="form-control"
@@ -188,7 +200,7 @@ class CreatePost extends Component {
                                         </FormGroup>
                                     </Col>
                                 </div>) : (<div>
-                                    <Col xs={4} md={3}>
+                                    <Col xs={2} md={2}>
                                         <FormGroup controlId="formControlsCategorias">
                                             <ControlLabel>Categorias</ControlLabel>
                                             <FormControl
@@ -202,7 +214,7 @@ class CreatePost extends Component {
 
                                         </FormGroup>
                                     </Col>
-                                    <Col xs={3} md={3}>
+                                    <Col xs={2} md={1}>
                                         <FormGroup controlId="formControlsCategorias">
                                             <ControlLabel>Score</ControlLabel>
                                             <FormControl
@@ -214,6 +226,19 @@ class CreatePost extends Component {
                                             </FormControl>
                                         </FormGroup>
                                     </Col>
+                                    <Col xs={2} md={3}>
+                                        <FormGroup controlId="formControlsCategorias">
+                                            <ControlLabel>Quantidade de Comentário(s)</ControlLabel>
+                                            <FormControl
+                                                name="post.voteScore"
+                                                readOnly={this.state.update}
+                                                type="text"
+                                                className="form-control"
+                                                value={this.state.post.commentCount}>
+                                            </FormControl>
+                                        </FormGroup>
+                                    </Col>
+
                                 </div>)}
                             </Row >
                         </Panel.Body>
@@ -236,12 +261,14 @@ class CreatePost extends Component {
 
 CreatePost.propTypes = {
     fetchPost: PropTypes.func.isRequired,
+    fetchPutPostId: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
     return {
         categorias: state.categorias.categories,
         post: state.posts,
+        postId: state.posts,
         token: this.token,
         headers: this.headers
     }
@@ -250,7 +277,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return (bindActionCreators({
         fetchAddPost: (post, token) => fetchAddPost(post, token),
-        fetchPosts: (headers) => fetchPosts(headers)
+        fetchPosts: (headers) => fetchPosts(headers),
+        fetchPutPostId: (post, token ,postId ) => fetchPutPostId(post, token , postId )
     }, dispatch))
 }
 
