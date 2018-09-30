@@ -158,7 +158,7 @@ O usuário é capaz de navegar entre as páginas de detalhes da postagem, págin
 
 
 ## Para simplificar o desenvolvimento foi disponibilizado uma API. Segue abaixo os metodos para execução, conforme descrito abaixo em *inglês*.
-[Api](https://github.com/udacity/reactnd-project-myreads-starter/blob/master/src/BooksAPI.js)
+[Api](https://github.com/udacity/reactnd-project-readable-starter/blob/master/README.md)
 
  Welcome to the Udacity Readable API!
 
