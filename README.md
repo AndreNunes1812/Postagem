@@ -155,8 +155,9 @@ O usuário é capaz de navegar entre as páginas de detalhes da postagem, págin
     └── history.js #     
 ```
 
-## Para simplificar o desenvolvimento foi disponibilizado uma API. Segue abaixo o link da API em *inglês*.
-[Api](https://github.com/udacity/reactnd-project-readable-starter/blob/master/README.md)
+## API
+
+Para simplificar o desenvolvimento foi disponibilizado uma [API](https://github.com/udacity/reactnd-project-readable-starter/blob/master/README.md)
 
 ## Create React App
 
