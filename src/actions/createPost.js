@@ -74,6 +74,21 @@ export function fetchOrdenarScorePost(posts) {
     }
 }
 
+// Função que remove o post pelo ID
+export const removePost = (id) => {
+    return {
+        type: REMOVE_POST,
+        payload: id
+    }
+}
+
+// Função que edita o post ID
+export const editPost = (post) => {
+    return {
+        type: EDIT_POST,
+        post: post
+    }
+}
 
 // Função que faz a inclusão na API
 export function fetchAddPost(post, token) {
@@ -150,30 +165,17 @@ export function fetchPutPostId(post, token , id) {
     }
 }
 
-// Função que remove o post pelo ID
-export const removePost = (id) => {
-    return {
-        type: REMOVE_POST,
-        payload: id
-    }
-}
-
-// Função que edita o post ID
-export const editPost = (post) => {
-    return {
-        type: EDIT_POST,
-        post: post
-    }
-}
-
 // Função que traz todos os post
 export function fetchPosts(headers) {
+    console.log('headers:',headers)
     return async dispatch => {
         await fetch('http://localhost:3001/posts', { headers })
             .then(res => (
+                console.log('res:',res),
                 res.json()
             ))
             .then(data => (
+                console.log('data:',data),
                 dispatch(setPosts(data))));
     }
 }

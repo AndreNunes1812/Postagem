@@ -1,23 +1,29 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from "redux";
-import { connect } from 'react-redux';
-import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost';
-import { fetchGetParentCommentId } from '../../actions/comentarioPost';
-import ViewPost from '../newpost/viewPost';
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { bindActionCreators } from "redux"
+import { connect } from 'react-redux'
+import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost'
+import { fetchGetParentCommentId } from '../../actions/comentarioPost'
+import ViewPost from '../newpost/viewPost'
 
 import {
     Panel,
     Row,
     Col
 }
-    from 'react-bootstrap';
+    from 'react-bootstrap'
 
-class ChildrenComentario extends Component {
+class FilhoComentario extends Component {
 
     static contextTypes = {
         router: PropTypes.object
+    }
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': localStorage.token
     }
 
     constructor(props) {
@@ -30,23 +36,26 @@ class ChildrenComentario extends Component {
             parentId: ''//this.props.location.postagem.id,
         }
 
-        this.self = this;
-        this.headers = {
-            'Content-Type': 'application/json',
-            'Authorization': this.token
-        }
+        this.self = this
 
-        this.handlerLink = this.handlerLink.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-        this.atualizarComent = this.atualizarComent.bind(this);
-        this.atualizarParentId = this.atualizarParentId.bind(this);
-        this.validarToken = this.validarToken.bind(this);
+        this.handlerLink = this.handlerLink.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+        this.atualizarComent = this.atualizarComent.bind(this)
+        this.atualizarParentId = this.atualizarParentId.bind(this)
+        this.validarToken = this.validarToken.bind(this)
+        this.validateObject = this.validateObject.bind(this)
     }
 
     componentDidMount() {
+        this.id = this.props.match.params.id
         this.validarToken();
-        this.atualizarParentId();
-        this.comentarios = this.props.comentarios;
+        this.atualizarParentId(localStorage.parentId)
+    }
+
+    componentWillMount() {
+        this.id = this.props.match.params.id
+        this.validarToken();
+        this.atualizarParentId(this.id)
     }
 
     toggleModal = () => {
@@ -61,9 +70,18 @@ class ChildrenComentario extends Component {
         })
     }
 
-    atualizarParentId() {
-        this.parentId = localStorage.parentId
+    atualizarParentId(parentId) {
+        this.props.fetchGetParentCommentId(parentId, this.token)
     }
+
+    validateObject(obj) {
+        if (typeof obj !== 'undefined' && obj.length > 0) {
+            return false
+        } else {
+            return true
+        }
+    }
+
 
     validarToken() {
         if (!this.token) {
@@ -86,11 +104,10 @@ class ChildrenComentario extends Component {
 
     render() {
 
-        let postagem = [] 
-
-        if (this.props.comentarios === undefined) {
-        } else {
-            postagem = this.props.comentarios.filter(post => post.parentId === localStorage.parentId)
+        let postagem = []
+        if( this.props.comentarios === undefined) {
+        }else{
+           postagem = this.props.comentarios.filter(post => post.parentId === localStorage.parentId)
         }
 
         return (
@@ -136,7 +153,7 @@ class ChildrenComentario extends Component {
 }
 
 
-ChildrenComentario.propTypes = {
+FilhoComentario.propTypes = {
     fetchPosts: PropTypes.func.isRequired,
     fetchGetParentCommentId: PropTypes.func.isRequired
 }
@@ -163,5 +180,4 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch))
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ChildrenComentario));
-
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(FilhoComentario))

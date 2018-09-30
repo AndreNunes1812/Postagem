@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from "redux";
-import { connect } from 'react-redux';
-import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost';
-import { fetchGetParentCommentId, fetchVoteCommentScore } from '../../actions/comentarioPost';
-import ViewPost from '../newpost/viewPost';
-import ModelForm from '../model/ModelForm';
-import ChildrenComentario from '../comentarios/ChildrenComentario';
-import NavMenu from '../navmenu//NavMenu';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
+import { bindActionCreators } from "redux"
+import { connect } from 'react-redux'
+import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost'
+import { fetchGetParentCommentId, fetchVoteCommentScore } from '../../actions/comentarioPost'
+import ViewPost from '../newpost/viewPost'
+import ModelForm from '../model/ModelForm'
+import FilhoComentario from '../comentarios/FilhoComentario'
+import NavMenu from '../navmenu//NavMenu'
+
 
 import {
     Panel,
@@ -16,13 +17,22 @@ import {
     Col,
     Button
 }
-    from 'react-bootstrap';
+    from 'react-bootstrap'
 
 class ComentarioPost extends Component {
 
     static contextTypes = {
         router: PropTypes.object
     }
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': localStorage.token
+    }
+    
+    token    = localStorage.token;
+    parentId = localStorage.parentId;
 
     constructor(props) {
         super(props)
@@ -31,30 +41,20 @@ class ComentarioPost extends Component {
             show: false,
             post: { id: "", timestamp: "", title: "", body: "", author: "", voteScore: 0, commentCount: 0 },
             commentId: '',
-            parentId: ''//this.props.location.postagem.id
+            parentId: ''
         }
-        this.self = this;
-        this.id = '';
+        this.self = this
+        this.id = ''
 
-        this.headers = {
-            'Content-Type': 'application/json',
-            'Authorization': this.token
-        }
-
-        this.handlerLink = this.handlerLink.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-        this.atualizarComent = this.atualizarComent.bind(this);
-        this.atualizarParentId = this.atualizarParentId.bind(this);
+        this.handlerLink = this.handlerLink.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+        this.atualizarComent = this.atualizarComent.bind(this)
+        this.atualizarParentId = this.atualizarParentId.bind(this)
     }
-
-    componentDidMount() {
-     //  this.setState({ id: this.props.location.state.commentId });
-      // this.parentId = localStorage.parentId = this.props.location.postagem.id;
-      localStorage.postagemList = false;
-    }
-
+    
     componentWillMount() {
-        this.atualizarParentId();
+        this.id = this.props.match.params.id
+        this.atualizarParentId(this.id)
     }
 
     toggleModal = () => {
@@ -71,8 +71,9 @@ class ComentarioPost extends Component {
         })
     }
 
-    atualizarParentId() {
-        this.props.fetchGetParentCommentId(this.parentId, this.token)
+    atualizarParentId(parentId) {       
+        this.props.fetchGetParentCommentId(parentId, this.token)
+        this.props.fetchPosts(this.headers)
     }
 
     validarToken() {
@@ -85,22 +86,19 @@ class ComentarioPost extends Component {
         this.setState({ show: true })
     }
 
-    token = localStorage.token;
-    parentId = localStorage.parentId;
-
     handlerLink() {
         this.validarToken();
         this.props.fetchPosts(this.headers)
         this.context.router.history.push('/')
-
     }
 
     render() {
-        console.log('post:' , this.props.createPost.post)
-        console.log('LocalStorage:' , localStorage.parentId)
-        
 
-        let postagem = this.props.createPost.post.filter(post => post.id === localStorage.parentId)[0]
+        let postagem = [] 
+        if(this.props.createPost.post === undefined) {
+        }else{
+            postagem = this.props.createPost.post.filter(post => post.id === localStorage.parentId)[0]
+        }
 
         return (
             <div>
@@ -126,7 +124,7 @@ class ComentarioPost extends Component {
                                 ativarLixeira={true} />
                         </Panel.Body>
                         <Panel.Footer>
-                            <Button bsStyle="success" type="button" onClick={this.toggleModal}>Adcionar Comentário</Button>
+                            <Button bsStyle="success" type="button" onClick={this.toggleModal}>Vamos comentar?</Button>
                             <Button bsStyle="link" onClick={this.handlerLink}>Voltar</Button>
                         </Panel.Footer>
                     </Panel>
@@ -139,9 +137,8 @@ class ComentarioPost extends Component {
                             token={this.token} />
                     ) : (null)
                     }
-
                 </div>
-                <ChildrenComentario
+                <FilhoComentario
                     children={localStorage.parentId}
                     desabilitarBotoes={false}
                     comentario={false}
@@ -149,10 +146,9 @@ class ComentarioPost extends Component {
                     ativarLixeira={true}
                 />
             </div>
-        );
+        )
     }
 }
-
 
 ComentarioPost.propTypes = {
     fetchPosts: PropTypes.func.isRequired,
@@ -182,5 +178,4 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch))
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ComentarioPost));
-
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ComentarioPost))

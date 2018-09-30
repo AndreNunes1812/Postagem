@@ -132,6 +132,7 @@ class ModelForm extends Component {
                                 <FormGroup controlId="formControlsTitulo">
                                     <ControlLabel>Author</ControlLabel>
                                     <FormControl
+                                        autoFocus
                                         name="comment.author"
                                         type="text"
                                         className="form-control"

@@ -1,12 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
-import { bindActionCreators } from "redux";
-import { connect } from 'react-redux';
-import ModelForm from '../model/ModelForm';
-import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost';
-import { fetchRemoveCommentId, fetchVoteCommentScore } from '../../actions/comentarioPost';
-
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { Link, withRouter } from 'react-router-dom'
+import { bindActionCreators } from "redux"
+import { connect } from 'react-redux'
+import ModelForm from '../model/ModelForm'
+import { fetchRemovePostId, fetchVoteScore, fetchPosts } from '../../actions/createPost'
+import { fetchRemoveCommentId, fetchVoteCommentScore } from '../../actions/comentarioPost'
 import {
     Panel,
     Row,
@@ -18,7 +17,6 @@ import {
     Glyphicon
 }
     from 'react-bootstrap';
-
 
 class ViewPost extends Component {
 
@@ -41,10 +39,13 @@ class ViewPost extends Component {
         this.handleTrash = this.handleTrash.bind(this);
         this.handleVoteScore = this.handleVoteScore.bind(this);
         this.convertDate = this.convertDate.bind(this);
+        this.onClickError = this.onClickError.bind(this)
     }
 
     componentDidMount() {
-        this.setState({ countComment: this.props.postagem.commentCount })
+        if(this.props.postagem !== undefined) { 
+            this.setState({ countComment: this.props.postagem.commentCount })
+        }
     }
 
     token = localStorage.token;
@@ -62,16 +63,16 @@ class ViewPost extends Component {
         }
     }
 
-    handleClick(categoryID) {
-        this.props.history.push(`/post` );
+    handleClick() {
+        this.props.history.push(`/post`);
     }
 
     handleComnentClick(commentID) {
         localStorage.parentId = commentID
-        console.log('asasa', localStorage.parentId)
         this.props.history.push({
-            pathname: '/category/' + commentID,
+            pathname: `${this.props.postagem.category}/${commentID}`,
             postagem: this.props.postagem,
+            validateForm: 'update',
             state: { commentId: commentID }
         })
     }
@@ -88,6 +89,10 @@ class ViewPost extends Component {
             this.props.fetchRemoveCommentId(deleteID, this.token);
         }
         this.props.fetchPosts(this.headers);
+    }
+
+    onClickError() {
+        this.props.history.push(`/error`)
     }
 
     handleVoteScore(postId, voteScore, vote, pai) {
@@ -107,83 +112,87 @@ class ViewPost extends Component {
         this.self = this.props;
         return (
             <div >
-                <Panel bsStyle="success">
-                    <Panel.Heading>
-                        <Panel.Title componentClass="h2">
+                {this.props.postagem === undefined ? (this.props.history.push(`/error`)) : (
+
+
+                    <Panel bsStyle="success">
+                        <Panel.Heading>
+                            <Panel.Title componentClass="h2">
+                                <Row>
+                                    <Col xs={8} md={8}>
+                                        <strong> Título</strong> {this.props.postagem.title}
+                                    </Col>
+                                    <Col xs={2} md={4}>
+                                        <strong>Data {this.convertDate(this.props.postagem.timestamp)} </strong>
+                                    </Col>
+                                </Row>
+                            </Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body>
                             <Row>
-                                <Col xs={8} md={8}>
-                                    <strong> Título</strong> {this.props.postagem.title}
-                                </Col>
-                                <Col xs={2} md={4}>
-                                    <strong>Data {this.convertDate(this.props.postagem.timestamp)} </strong>
-                                </Col>
-                            </Row>
-                        </Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Body>
-                        <Row>
-                            <Col xs={12} md={12}>
-                                <FormGroup controlId="formControlsTitulo">
-                                    <ControlLabel>Comentário(s)</ControlLabel>
-                                    <FormControl
-                                        componentClass="textarea"
-                                        value={this.props.postagem.body}
-                                        className="form-control"
-                                    />
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row >
-                            <Col xs={10} md={10}>
-                                <FormGroup controlId="formControlsTitulo">
-                                    <ControlLabel>Author</ControlLabel>
-                                    <FormControl
-                                        type="text"
-                                        value={this.props.postagem.author}
-                                        className="form-control"
-                                        key={this.props.postagem.id}
-                                    />
-                                </FormGroup>
-                            </Col>
-                            {this.props.desabilitarBotoes ? (
-                                <Col xs={2} md={2}>
+                                <Col xs={12} md={12}>
                                     <FormGroup controlId="formControlsTitulo">
-                                        <ControlLabel>Categoria</ControlLabel>
-                                        {}
+                                        <ControlLabel>Comentário(s)</ControlLabel>
                                         <FormControl
-                                            type="text"
-                                            value={this.props.postagem.category}
+                                            componentClass="textarea"
+                                            value={this.props.postagem.body}
                                             className="form-control"
                                         />
                                     </FormGroup>
-                                </Col>) : (null)}
-                         
-                        </Row>
-                    </Panel.Body>
-                    {this.props.desativarFooter ? (null) : (
-                        <Panel.Footer>
-                            <Row>
-                                <Col xs={6} md={6}>
+                                </Col>
+                            </Row>
+                            <Row >
+                                <Col xs={10} md={10}>
                                     <FormGroup controlId="formControlsTitulo">
-                                        <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'upVote', this.props.vote, this.props.postagem.parentId)}>
-                                            <Glyphicon glyph="glyphicon glyphicon-hand-up" />
-                                        </Button>
-                                        <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'downVote', this.props.vote, this.props.postagem.parentId)}>
-                                            <Glyphicon glyph="glyphicon glyphicon-hand-down" />
-                                        </Button>
-                                        {this.props.ativarEdicao ? (
-                                            <Link to={{
-                                                pathname: '/post/'+ this.props.postagem.id,
-                                                state: { post: this.props.postagem, comentario: this.props.comentario }
-                                            }}
-                                            > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>
-                                        ) : (null)}
-                                        {this.props.ativarLixeira ? (
-                                            <Button bsStyle="link" onClick={() => this.handleTrash(this.props.postagem.id)}>
-                                                <Glyphicon glyph="glyphicon glyphicon-trash" />
-                                            </Button>
-                                        ) : (null)}
+                                        <ControlLabel>Author</ControlLabel>
+                                        <FormControl
+                                            type="text"
+                                            value={this.props.postagem.author}
+                                            className="form-control"
+                                            key={this.props.postagem.id}
+                                        />
                                     </FormGroup>
+                                </Col>
+                                {this.props.desabilitarBotoes ? (
+                                    <Col xs={2} md={2}>
+                                        <FormGroup controlId="formControlsTitulo">
+                                            <ControlLabel>Categoria</ControlLabel>
+                                            {}
+                                            <FormControl
+                                                type="text"
+                                                value={this.props.postagem.category}
+                                                className="form-control"
+                                            />
+                                        </FormGroup>
+                                    </Col>) : (null)}
+
+                            </Row>
+                        </Panel.Body>
+                        {this.props.desativarFooter ? (null) : (
+                            <Panel.Footer>
+                                <Row>
+                                    <Col xs={6} md={6}>
+                                        <FormGroup controlId="formControlsTitulo">
+                                            <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'upVote', this.props.vote, this.props.postagem.parentId)}>
+                                                <Glyphicon glyph="glyphicon glyphicon-hand-up" />
+                                            </Button>
+                                            <Button bsStyle="link" onClick={() => this.handleVoteScore(this.props.postagem.id, 'downVote', this.props.vote, this.props.postagem.parentId)}>
+                                                <Glyphicon glyph="glyphicon glyphicon-hand-down" />
+                                            </Button>
+                                            {this.props.ativarEdicao ? (
+                                                <Link to={{
+                                                    pathname: '/post/' + this.props.postagem.id,
+                                                    validateForm: 'update',
+                                                    state: { post: this.props.postagem, comentario: this.props.comentario }
+                                                }}
+                                                > <Glyphicon glyph="glyphicon glyphicon-pencil" /> </Link>
+                                            ) : (null)}
+                                            {this.props.ativarLixeira ? (
+                                                <Button bsStyle="link" onClick={() => this.handleTrash(this.props.postagem.id)}>
+                                                    <Glyphicon glyph="glyphicon glyphicon-trash" />
+                                                </Button>
+                                            ) : (null)}
+                                        </FormGroup>
                                         {this.props.ativarVamosComentar ? (
                                             <Col xs={2} md={2}>
                                                 <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
@@ -192,38 +201,39 @@ class ViewPost extends Component {
                                             </Col>
 
                                         ) : (null)}
-                                </Col>
+                                    </Col>
 
-                                {this.props.desabilitarBotoes ? (
-                                    <Fragment>
+                                    {this.props.desabilitarBotoes ? (
                                         <Fragment>
-                                            <Col xs={2} md={2}>
-                                                <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
-                                                    <Button
-                                                        bsStyle="link"
-                                                    > Comentários: {this.props.postagem.commentCount}
-                                                    </Button>
-                                                </FormGroup>
-                                            </Col>
-                                        </Fragment>
-                                    </Fragment>) : (
-                                        <Fragment  >
-                                            <Col xs={2} md={2} style={{ marginTop: 8 }}>
-                                                <Button bsStyle="success" type="button" onClick={this.toggleModal}>Editar Comentário</Button>
-                                            </Col>
-                                        </Fragment>
-                                    )}
-                                <Col xs={2} md={2}>
-                                    <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
-                                        <Button bsStyle="link">Score:{this.props.postagem.voteScore}</Button>
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                        </Panel.Footer>
+                                            <Fragment>
+                                                <Col xs={2} md={2}>
+                                                    <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
+                                                        <Button
+                                                            bsStyle="link"
+                                                        > Comentários: {this.props.postagem.commentCount}
+                                                        </Button>
+                                                    </FormGroup>
+                                                </Col>
+                                            </Fragment>
+                                        </Fragment>) : (
+                                            <Fragment  >
+                                                <Col xs={2} md={2} style={{ marginTop: 8 }}>
+                                                    <Button bsStyle="success" type="button" onClick={this.toggleModal}>Editar Comentário</Button>
+                                                </Col>
+                                            </Fragment>
+                                        )}
+                                    <Col xs={2} md={2}>
+                                        <FormGroup controlId="formControlsTitulo" style={{ marginTop: 8 }}>
+                                            <Button bsStyle="link">Score:{this.props.postagem.voteScore}</Button>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                            </Panel.Footer>
 
-                    )}
+                        )}
 
-                </Panel>
+                    </Panel>
+                )}
                 {this.state.show ? (
                     <ModelForm
                         show={this.state.show}
@@ -234,7 +244,9 @@ class ViewPost extends Component {
                         son={this.state.son} />
                 ) : (null)
                 }
+
             </div>
+
         );
     }
 }

@@ -6,27 +6,43 @@ import { Button, Panel, Row, Col } from 'react-bootstrap'
 import ViewPost from './viewPost'
 import NavMenu from '../navmenu/NavMenu'
 import OrdenacaoList from '../newpost/OrdenacaoList'
+import { fetchCategorias } from '../../actions/categorias'
 
 import {
     fetchCategoryPost,
     fetchOrdenarDataPost
 } from '../../actions/createPost'
 
+
+let headers = {
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.token
+}
+
 class CategoriasList extends Component {
 
     constructor(props) {
         super(props)
 
-        this.onClickVoltar = this.onClickVoltar.bind(this)
+        this.onClickReturn = this.onClickReturn.bind(this)
         this.validateObject = this.validateObject.bind(this)
         this.validateToken = this.validateToken.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+        this.callCategory = this.callCategory.bind(this)
     }
 
     componentDidMount() {
-        this.props.fetchCategoryPost(this.props.location.state.category, localStorage.token);
+        console.log('Cetegoria:',this.props.match.params.id , headers)
+        this.props.fetchCategoryPost(this.props.match.params.id, localStorage.token);
+        this.props.fetchCategorias(headers)
     }
 
-    onClickVoltar() {
+    componentWillMount() {
+        let id = this.props.match.params
+        this.callCategory(id);
+    }
+
+    onClickReturn() {
         this.props.history.push({
             pathname: '/'
         })
@@ -46,9 +62,22 @@ class CategoriasList extends Component {
         }
     }
 
+    callCategory(category) {
+        this.props.fetchCategoryPost(category, localStorage.token);
+
+    }
+
+    handleClick(category) {
+        this.props.history.push({
+            pathname: `/${category}`
+        })
+        this.callCategory(category);
+
+    }
+
     render() {
         const postagem = this.props.createPost.post
-
+        const categorias = this.props.categorias.categories
         return (
             <div className="container">
                 <Fragment>
@@ -63,7 +92,7 @@ class CategoriasList extends Component {
                                                 <strong> Listagem de Categorias</strong>
                                             </Col>
                                             <Col xs={2} md={4}>
-                                                <Button bsStyle="link" onClick={this.onClickVoltar}>Voltar</Button>
+                                                <Button bsStyle="link" onClick={this.onClickReturn}>Voltar</Button>
                                             </Col>
                                         </Row>
                                     </Panel.Title>
@@ -89,6 +118,25 @@ class CategoriasList extends Component {
                                 </Panel.Body>
                             </Panel>
                         </Col>
+                        <Col sm={2} className="back-ground-css">
+                            <Panel bsStyle="success">
+                                <Panel.Heading>
+                                    <Panel.Title componentClass="h3">Categorias</Panel.Title>
+                                </Panel.Heading>
+                                <ul>
+                                    {categorias === undefined ? (null) :
+                                        (<div>{categorias.map(categoria =>
+                                            (<li key={categoria.path} style={{ listStyleType: "none" }}>
+                                                <Button onClick={(e) => this.handleClick(categoria.name)} bsStyle="link">{categoria.name}</Button>
+                                            </li>
+                                            ))}</div>
+                                        )
+
+                                    }
+
+                                </ul>
+                            </Panel>
+                        </Col>
                         {this.validateObject(postagem) ? (null) : (
                             <Col sm={2} className="back-ground-css">
                                 <Panel bsStyle="success" >
@@ -110,10 +158,12 @@ class CategoriasList extends Component {
 CategoriasList.propTypes = {
     fetchCategoryPost: PropTypes.func.isRequired,
     fetchOrdenarDataPost: PropTypes.func.isRequired,
+    fetchCategorias: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-    createPost: state.createPost
+    createPost: state.createPost,
+    categorias: state.categorias,
 })
 
-export default connect(mapStateToProps, { fetchCategoryPost, fetchOrdenarDataPost })(withRouter(CategoriasList))
+export default connect(mapStateToProps, { fetchCategoryPost, fetchOrdenarDataPost, fetchCategorias })(withRouter(CategoriasList))

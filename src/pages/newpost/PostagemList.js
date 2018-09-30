@@ -12,7 +12,6 @@ import ViewPost from './viewPost'
 
 import { Panel, Row, Col, Button } from 'react-bootstrap'
 
-
 class PostagemList extends Component {
 
     constructor(props) {
@@ -21,6 +20,7 @@ class PostagemList extends Component {
         this.onClickPostagem = this.onClickPostagem.bind(this)
         this.validateToken = this.validateToken.bind(this)
         this.validateObject = this.validateObject.bind(this)
+
     }
 
     static contextTypes = {
@@ -35,7 +35,6 @@ class PostagemList extends Component {
         }
         this.props.fetchPosts(headers)
         this.props.fetchCategorias(headers)
-
     }
 
     token = localStorage.token
@@ -55,18 +54,19 @@ class PostagemList extends Component {
     }
 
     onClickPostagem() {
-        localStorage.postagemList= true;
         this.props.history.push({
-            pathname: '/post'
+            pathname: '/post',
+            validateForm: 'new'
+
         })
     }
 
-    handleClick(category) {        
+    handleClick(category) {   
+        console.log('Category:', category)     
         this.props.history.push({
-            pathname: '/categoria/' + category,
+            pathname: `/${category}`,
             state: { postagem: this.props.createPost.post, category: category }
-        })
-        
+        })        
     }
 
     render() {
@@ -109,12 +109,11 @@ class PostagemList extends Component {
                             </Panel.Body>
                         </Panel>
                     </Col>
-
                     <Col sm={2} className="back-ground-css">
                         <Panel bsStyle="success">
                             <Panel.Heading>
                                 <Panel.Title componentClass="h3">Categorias</Panel.Title>
-                            </Panel.Heading>
+                            </Panel.Heading> 
                             <ul>
                                 {categorias === undefined ? (null) :
                                     (<div>{categorias.map(categoria =>
