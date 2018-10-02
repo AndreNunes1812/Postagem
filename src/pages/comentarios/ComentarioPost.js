@@ -121,6 +121,7 @@ class ComentarioPost extends Component {
                                 trashID={true}
                                 desabilitarBotoes={true}
                                 ativarEdicao={true}
+                                postagemEdicao={false}
                                 ativarLixeira={true} />
                         </Panel.Body>
                         <Panel.Footer>

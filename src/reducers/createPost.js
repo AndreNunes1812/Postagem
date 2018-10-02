@@ -1,6 +1,6 @@
 import { INITIAL_FETCH, 
          ADD_POST, 
-         EDIT_POST,
+         GET_POST,
          SET_POSTS, 
          REMOVE_POST,
          SET_VOTE_POSTS,
@@ -13,8 +13,8 @@ export default function createPost (state = [], action) {
             return { ...state, post: action.payload };
         case ADD_POST:
             return {...state, post: action.post };
-        case EDIT_POST:
-            return {...state, post: action.post };
+        case GET_POST:
+            return {...state, postId: action.post };
         case SET_POSTS:
             return {...state, post: action.post };
         case REMOVE_POST:

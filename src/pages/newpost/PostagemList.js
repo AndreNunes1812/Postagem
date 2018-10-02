@@ -62,7 +62,6 @@ class PostagemList extends Component {
     }
 
     handleClick(category) {   
-        console.log('Category:', category)     
         this.props.history.push({
             pathname: `/${category}`,
             state: { postagem: this.props.createPost.post, category: category }
@@ -98,6 +97,7 @@ class PostagemList extends Component {
                                                     comentario={false}
                                                     trashID={true}
                                                     ativarEdicao={true}
+                                                    postagemEdicao={true}
                                                     ativarVamosComentar={true}
                                                     ativarLixeira={true} />
                                             </li>

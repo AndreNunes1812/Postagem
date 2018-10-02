@@ -32,7 +32,6 @@ class CategoriasList extends Component {
     }
 
     componentDidMount() {
-        console.log('Cetegoria:',this.props.match.params.id , headers)
         this.props.fetchCategoryPost(this.props.match.params.id, localStorage.token);
         this.props.fetchCategorias(headers)
     }

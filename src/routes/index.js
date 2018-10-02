@@ -11,17 +11,16 @@ const Routes = () => (
     <Router >
         <Switch>
             <Route exact path="/" component={PostagemList} />
-            <Route path="/post" component={CreatePost} />
+            <Route exact path="/post" component={CreatePost} />
             <Route path="/post/:id" component={CreatePost} />
-            <Route path="/error" component={Error404} /> 
-
+            <Route path="/error" component={Error404} />
             <Route path="/:category/:id" component={ComentarioPost} />
-
-            {/* <Route path="/categoria" component={CategoriaList} /> */}
+            <Route path="/categoria" component={CategoriaList} />
             <Route path="/:id" component={CategoriaList} />
-          
+            
+
             {/* <Route exact={true} path='*' component={Error404} />   */}
-        
+
 
         </Switch>
     </Router>

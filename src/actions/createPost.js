@@ -2,7 +2,7 @@ export const INITIAL_FETCH = 'INITIAL_FETCH';
 
 export const SET_POSTS = 'SET_POSTS';
 export const ADD_POST = 'ADD_POST';
-export const EDIT_POST = 'EDIT_POST';
+export const GET_POST = 'GET_POST';
 export const REMOVE_POST = 'REMOVE_POST';
 
 export const CATEGORY_POST = 'CATEGORY_POST';
@@ -83,10 +83,10 @@ export const removePost = (id) => {
 }
 
 // Função que edita o post ID
-export const editPost = (post) => {
+export const getPost = (post) => {
     return {
-        type: EDIT_POST,
-        post: post
+        type: GET_POST,
+        postId: post
     }
 }
 
@@ -108,7 +108,7 @@ export function fetchAddPost(post, token) {
                 res.json()
             ))
             .then(data => (
-                dispatch(fetchPosts(headers))  
+                dispatch(fetchPosts(headers))
             )
             );
     }
@@ -138,9 +138,7 @@ export function fetchCategoryPost(category, token) {
 }
 
 // Função que atualiza o post pelo ID (Title / Body Update)
-export function fetchPutPostId(post, token , id) {
-
-    console.log('Put:', post, token, id)
+export function fetchPutPostId(post, token, id) {
 
     const headers = {
         'Content-Type': 'application/json',
@@ -152,13 +150,12 @@ export function fetchPutPostId(post, token , id) {
             {
                 method: 'PUT',
                 headers: headers,
-                body: JSON.stringify( post )
+                body: JSON.stringify(post)
             })
             .then(res => (
                 res
             ))
             .then(data => (
-                console.log('Data:', data),
                 dispatch(fetchPosts(headers))
             )
             );
@@ -167,16 +164,14 @@ export function fetchPutPostId(post, token , id) {
 
 // Função que traz todos os post
 export function fetchPosts(headers) {
-    console.log('headers:',headers)
     return async dispatch => {
-        await fetch('http://localhost:3001/posts', { headers })
+        await fetch('http://localhost:3001/posts', { headers: headers })
             .then(res => (
-                console.log('res:',res),
-                res.json()
+                 res.json()
             ))
             .then(data => (
-                console.log('data:',data),
-                dispatch(setPosts(data))));
+                 dispatch(setPosts(data))
+            ));
     }
 }
 
@@ -232,6 +227,31 @@ export function fetchVoteScore(postID, token, vote) {
             ))
             .then(data => (
                 dispatch(fetchPosts(headers))
+            )
+            );
+    }
+}
+
+
+// Ler um determinado POST
+export function fetchGetPost(postID, token) {
+
+    return async dispatch => {
+
+        await fetch('http://localhost:3001/posts/' + postID,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': token
+                }               
+            })
+            .then(res => (
+                res.json()
+            ))
+            .then(data => (
+                dispatch(getPost(data))
             )
             );
     }
