@@ -251,7 +251,6 @@ class ViewPost extends Component {
     }
 }
 
-
 ViewPost.propTypes = {
     fetchRemovePostId: PropTypes.func.isRequired,
     fetchVoteScore: PropTypes.func.isRequired,

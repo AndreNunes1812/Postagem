@@ -105,10 +105,11 @@ class CategoriasList extends Component {
                                                 (<li key={post.id} style={{ listStyleType: "none" }}>
                                                     <ViewPost postagem={post}
                                                         desabilitarBotoes={true}
-                                                        trashID={false}
-                                                        ativarEdicao={false}
-                                                        ativarLixeira={false}
-                                                        desativarFooter={true} />
+                                                        trashID={true}
+                                                        ativarEdicao={true}
+                                                        ativarLixeira={true}
+                                                        ativarVamosComentar={true}
+                                                        desativarFooter={false} />
                                                 </li>
                                                 ))}</div>
                                             )

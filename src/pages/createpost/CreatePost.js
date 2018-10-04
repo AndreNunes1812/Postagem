@@ -93,7 +93,7 @@ class CreatePost extends Component {
     }
 
     render() {
-        //const { onChangeName, categorias } = this.props;
+
         if (this.state.loading) {
             return <div>loading ...</div>;
         }
@@ -105,16 +105,16 @@ class CreatePost extends Component {
                     newPost  = {this.props.location.validateForm}
                   /></div>
             } else { 
-                if (typeof this.props.createPost.post != "undefined" && this.props.createPost.post != null && this.props.createPost.post.length != null && this.props.createPost.post.length === 0) {
+                if (typeof this.props.createPost.post !== "undefined" && this.props.createPost.post !== null && this.props.createPost.post.length !== null && this.props.createPost.post.length >0) {
                     return <div>{this.context.router.history.push('/error')}</div>
                 }
                 else {
-                    if (typeof this.props.createPost.post != "undefined" && this.props.createPost.post != null && this.props.createPost.post.length != null && this.props.createPost.post.length > 0)  {
+                    if (typeof this.props.createPost.post !== "undefined" && this.props.createPost.post !== null && this.props.createPost.post.length !== null && this.props.createPost.post.length > 0)  {
                         let postagem = this.props.createPost.post.filter(crea => crea.id === id)[0]
                         return <div>< CreatePostFilho 
                         postagem = {postagem} /></div>
                     }
-                    return null
+                    return <div>{this.context.router.history.push('/error')}</div>
 
                 }
             }

@@ -19,6 +19,8 @@ import {
 }
     from 'react-bootstrap'
 
+let id
+
 class ComentarioPost extends Component {
 
     static contextTypes = {
@@ -44,17 +46,17 @@ class ComentarioPost extends Component {
             parentId: ''
         }
         this.self = this
-        this.id = ''
+       // this.id = ''
 
         this.handlerLink = this.handlerLink.bind(this)
         this.handleClick = this.handleClick.bind(this)
         this.atualizarComent = this.atualizarComent.bind(this)
         this.atualizarParentId = this.atualizarParentId.bind(this)
     }
-    
+
     componentWillMount() {
-        this.id = this.props.match.params.id
-        this.atualizarParentId(this.id)
+        id = this.props.match.params.id
+        this.atualizarParentId(id)
     }
 
     toggleModal = () => {
